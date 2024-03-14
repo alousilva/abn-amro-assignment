@@ -1,6 +1,40 @@
 # tvmaze
 
-This template should help get you started developing with Vue 3 in Vite.
+used npm create vue@latest to init the project
+
+## Limitations of the api
+
+- There is no query by genre since they would have to cache large data sets of shows by genre and this is not normally available on a free and public api
+  ideally we would be able to query the shows by genres.
+
+Example of a possible handy endpoint:
+
+```text
+https://api.tvmaze.com/shows?genre=action
+```
+
+Or for multiple genres (comma separated values):
+
+```text
+https://api.tvmaze.com/shows?genre=action,sci-fi,mystery
+```
+
+So to circumvent this problem I extracted the list of genres from https://www.tvmaze.com/faq/32/genre-definitions and stored them in an array of objects
+
+```js
+const genres = [
+  {
+    name: 'Action',
+    description: 'Series with high energy and plenty of physical stunts/activities.'
+  },
+  {
+    name: 'Adult',
+    description:
+      'Series with a high level of sexuality, and/or violence and is only meant for aged 18+ viewers.'
+  }
+  // etc...
+]
+```
 
 ## Recommended IDE Setup
 

@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import PosterGrid from '@/components/PosterGrid.vue';
 </script>
 
 <template>
+  <header>
+    <input type="text" id="search-input" aria-label="Search series" />
+  </header>
   <main>
-    <TheWelcome />
+    <poster-grid />
   </main>
 </template>
