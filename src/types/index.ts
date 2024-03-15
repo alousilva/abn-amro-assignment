@@ -1,4 +1,4 @@
-import type { SHOW_DETAILS_TAB } from "./utils/constants";
+import type { SHOW_DETAILS_TAB } from "../utils/constants";
 
 export type ShowGenres = {
   [key: string]: {
