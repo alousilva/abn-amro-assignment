@@ -1,10 +1,12 @@
-import type { CastMember, Episode, Show } from "@/types";
+import type { CastMember, Episode, SearchedShow, Show } from "@/types";
 import type { Ref } from "vue";
 
 // add a .env file with the base url
 const baseEndpoint = "https://api.tvmaze.com/";
 
-export const fetchShowsByKeyword = async (searchKeyword: Ref<string | null>): Promise<Show[]> =>
+export const fetchShowsByKeyword = async (
+  searchKeyword: Ref<string | null>,
+): Promise<SearchedShow[]> =>
   await fetch(`${baseEndpoint}search/shows?q=${searchKeyword.value}`).then((response) =>
     response.json(),
   );

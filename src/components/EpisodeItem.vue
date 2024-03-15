@@ -2,8 +2,8 @@
   <div
     class="episode-item"
     tabindex="0"
-    @click="$emit('open-show', episode.id)"
-    @keydown.enter="$emit('open-show', episode.id)"
+    @click="$emit('open-show-details', episode.id)"
+    @keydown.enter="$emit('open-show-details', episode.id)"
   >
     <div class="episode-item__image">
       <img v-if="episode.image?.medium" :src="episode.image.medium" />
@@ -17,7 +17,7 @@
 import type { Episode } from "@/types";
 
 defineProps<{ episode: Episode }>();
-defineEmits(["open-show"]);
+defineEmits(["open-show-details"]);
 </script>
 
 <style lang="scss" scoped>

@@ -2,10 +2,10 @@
   <div
     class="show-item"
     tabindex="0"
-    @click="$emit('open-show', props.show?.id)"
-    @keydown.enter="$emit('open-show', props.show?.id)"
+    @click="$emit('open-show-details', props.show?.id)"
+    @keydown.enter="$emit('open-show-details', props.show?.id)"
   >
-    <img :src="props.show?.image.medium" />
+    <img :src="props.show?.image?.medium" />
     <!-- <span class="show-item__name">{{ props.show?.name }}</span> -->
   </div>
 </template>
@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<{ show: Show | null }>(), {
   show: null,
 });
 
-defineEmits(["open-show"]);
+defineEmits(["open-show-details"]);
 </script>
 
 <style lang="scss" scoped>

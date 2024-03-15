@@ -1,38 +1,43 @@
 <template>
   <div class="home-page">
     <header>
-      <div class="home-page__search">
-        <input
-          v-model="searchKeyword"
-          type="text"
-          id="search-input"
-          aria-label="Search series"
-          placeholder="Search series"
-        />
-      </div>
+      <input-text
+        v-model="searchKeyword"
+        class="home-page__search"
+        :debounce-delay="300"
+        type="text"
+        id="search-input"
+        aria-label="Search shows"
+        placeholder="Search shows"
+      />
     </header>
     <main>
       <span v-if="showsIsPending">Loading shows...</span>
       <span v-else-if="showsIsError">Error: {{ showsError?.message }}</span>
-      <shows-grid v-else :shows="showsData" @open-show="openShowHandler" />
+      <shows-grid
+        v-else
+        :shows="showsGridData"
+        @open-show-details="openShowHandler"
+        @view-all-shows-by-genre="viewAllShowsByGenreHandler"
+      />
     </main>
   </div>
 </template>
 
 <script setup lang="ts">
+import InputText from "@/components/InputText.vue";
 import ShowsGrid from "@/components/ShowsGrid.vue";
 import { useQuery } from "@tanstack/vue-query";
 import type { Show } from "@/types";
-import { ref } from "vue";
-import { fetchShowById, fetchShows, fetchShowsByKeyword } from "@/stores/api";
-import { useRouter, useRoute } from "vue-router";
+import { computed, ref } from "vue";
+import { fetchShows, fetchShowsByKeyword } from "@/stores/api";
+import { useRouter } from "vue-router";
 
 const router = useRouter();
-const route = useRoute();
 
 // Query
 const page = ref(1);
-const searchKeyword = ref(null);
+const searchKeyword = ref("");
 
 const {
   isError: showsByKeywordIsError,
@@ -61,24 +66,24 @@ const {
   keepPreviousData: true,
 });
 
-const selectedShow = ref<number | null>(null);
-const { data: showData, error: showError } = useQuery({
-  queryKey: ["show", selectedShow],
-  queryFn: () => {
-    if (selectedShow.value) return fetchShowById(selectedShow);
-    return null;
-  },
-  // @ts-ignore This field is not defined in the vue-query types
-  keepPreviousData: true,
+const showsGridData = computed(() => {
+  if (searchKeyword.value) {
+    const parsedShows = showsByKeywordData.value?.map((show) => show.show);
+    return parsedShows;
+  } else {
+    return showsData.value;
+  }
 });
 
-// const sidePanelIsVisible = ref(false);
 const openShowHandler = (showId: Show["id"]) => {
-  // sidePanelIsVisible.value = true;
-  // selectedShow.value = showId;
-  console.log("data :>> ", showId);
   router.push({
     path: `/details/${showId}`,
+  });
+};
+
+const viewAllShowsByGenreHandler = (genreType: string) => {
+  router.push({
+    path: `/genre/${genreType}`,
   });
 };
 </script>
@@ -88,25 +93,6 @@ const openShowHandler = (showId: Show["id"]) => {
   &__search {
     display: flex;
     width: 100%;
-
-    input {
-      max-width: 300px;
-      margin: 0 auto;
-      --input-padding-top: 6px;
-      --input-padding-bottom: 6px;
-      --input-border: 1px solid rgb(11% 11% 3.14% / 0.08);
-      // background-color: var(--input-bg);
-      // color: var(--input-fg);
-      // font: var(--input-text-typography);
-      border: var(--input-border);
-      border-radius: var(--border-radius);
-      padding: var(--input-padding-top) var(--input-padding-right) var(--input-padding-bottom)
-        var(--input-padding-left) !important;
-      transition: 0.2s;
-      // height: var(--sizing-input-default);
-      appearance: none;
-      width: inherit;
-    }
   }
 }
 </style>

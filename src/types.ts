@@ -1,4 +1,6 @@
-export type SeriesGenre = {
+import type { SHOW_DETAILS_TAB } from "./utils/constants";
+
+export type ShowGenres = {
   [key: string]: {
     name: string;
     description: string;
@@ -88,6 +90,11 @@ export type Episode = {
   };
 };
 
+export type SearchedShow = {
+  score: number;
+  show: Show;
+};
+
 // export type Rating = {
 //   average: number;
 // };
@@ -168,12 +175,7 @@ export type CastMember = {
   voice: boolean;
 };
 
-export const SERIE_DETAILS_TAB = {
-  Episodes: "Episodes",
-  Cast: "Cast",
-} as const;
-
-export type SerieDetailsTab = keyof typeof SERIE_DETAILS_TAB;
+export type ShowDetailsTab = keyof typeof SHOW_DETAILS_TAB;
 
 export type EpisodesGroupedBySeason = {
   [season: number]: Episode[];

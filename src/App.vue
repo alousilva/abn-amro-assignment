@@ -4,51 +4,60 @@ import { RouterLink, RouterView } from "vue-router";
 
 <template>
   <div class="wrapper">
-    <nav>
+    <nav class="wrapper__navigation">
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/favorites">Favorites</RouterLink>
       <RouterLink to="/surprise">Surprise me</RouterLink>
     </nav>
-    <router-view v-slot="{ Component }">
-      <transition name="fade">
-        <component :is="Component" />
-      </transition>
-    </router-view>
+    <div class="wrapper__content">
+      <router-view v-slot="{ Component }">
+        <transition name="fade">
+          <component :is="Component" />
+        </transition>
+      </router-view>
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-nav {
-  position: fixed;
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  // margin-top: 2rem;
-  background-color: rgb(194, 245, 245);
+.wrapper {
+  max-width: 1280px;
 
-  a {
-    display: inline-block;
-    padding: 0 1rem;
-    border-left: 1px solid var(--color-border);
+  &__navigation {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    font-size: 12px;
+    text-align: center;
+    height: 40px;
 
-    &:first-of-type {
-      border: 0;
-    }
+    // background-color: rgb(194, 245, 245);
 
-    &.router-link-exact-active {
-      color: var(--color-text);
-    }
+    a {
+      display: inline-block;
+      padding: 0 1rem;
+      border-left: 1px solid var(--color-border);
 
-    &.router-link-exact-active:hover {
-      background-color: transparent;
+      &:first-of-type {
+        border: 0;
+      }
+
+      &.router-link-exact-active {
+        color: var(--color-text);
+      }
+
+      &.router-link-exact-active:hover {
+        background-color: transparent;
+      }
     }
   }
-}
 
-.wrapper {
-  :deep(.home-page) {
-    max-width: 767px;
-    margin-inline: auto;
+  &__content {
+    margin-top: 2rem;
+    :deep(.home-page) {
+      max-width: 767px;
+      margin-inline: auto;
+    }
   }
 }
 

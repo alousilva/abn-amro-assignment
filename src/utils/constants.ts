@@ -1,6 +1,6 @@
-import type { SeriesGenre } from "@/types";
+import type { ShowGenres } from "@/types";
 
-export const seriesGenres: SeriesGenre = {
+export const showGenres: ShowGenres = {
   action: {
     name: "Action",
     description: "Series with high energy and plenty of physical stunts/activities.",
@@ -55,7 +55,7 @@ export const seriesGenres: SeriesGenre = {
   },
   nature: { name: "Nature", description: "Series focus is on animals and/or the natural world." },
   romance: { name: "Romance", description: "Series about love and/or relationships." },
-  sciFi: {
+  scifi: {
     name: "Science-Fiction",
     description: "Series about otherworlds, futuristic settings, or fictional space exploration.",
   },
@@ -80,3 +80,10 @@ export const seriesGenres: SeriesGenre = {
       "Series set primarily in the latter half of the 19th century in the American Old West.",
   },
 };
+
+// export const showGenresList = Object.entries(showGenres);
+
+export const SHOW_DETAILS_TAB = {
+  Episodes: "Episodes",
+  Cast: "Cast",
+} as const;

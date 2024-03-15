@@ -21,6 +21,27 @@ https://api.tvmaze.com/shows?genre=action,sci-fi,mystery
 
 So to circumvent this problem I extracted the list of genres from https://www.tvmaze.com/faq/32/genre-definitions and stored them in an array of objects
 
+TODO:
+code optimizations
+handle errors
+remove inactive queries, maybe
+improve CSS
+unit tests
+
+Features:
+
+- [X] List shows
+- [X] Detailed show view
+- [X] List show episodes
+- [X] List show for a given genre
+- [X] List show cast
+- [X] Search for shows
+- [ ] View all shows on results from search
+      - only list all the shows for a given category based on the results of the search
+- [ ] Save favorites
+- [ ] Randomize show ("Surprise me")
+- [ ] Dark / light mode
+
 ```js
 const genres = [
   {
