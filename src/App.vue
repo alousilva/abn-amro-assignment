@@ -1,60 +1,73 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router';
-import HelloWorld from './components/HelloWorld.vue';
+import { RouterLink, RouterView } from "vue-router";
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-      <!-- <nav> -->
-      <!-- <RouterLink to="/">Home</RouterLink> -->
-      <!-- tweak this -->
-      <!-- <RouterLink to="/details">About</RouterLink> -->
-      <!-- </nav> -->
-    </div>
-  </header>
-
-  <RouterView />
+  <div class="wrapper">
+    <nav>
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/favorites">Favorites</RouterLink>
+      <RouterLink to="/surprise">Surprise me</RouterLink>
+    </nav>
+    <router-view v-slot="{ Component }">
+      <transition name="fade">
+        <component :is="Component" />
+      </transition>
+    </router-view>
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
+<style lang="scss" scoped>
 nav {
+  position: fixed;
   width: 100%;
   font-size: 12px;
   text-align: center;
-  margin-top: 2rem;
+  // margin-top: 2rem;
+  background-color: rgb(194, 245, 245);
+
+  a {
+    display: inline-block;
+    padding: 0 1rem;
+    border-left: 1px solid var(--color-border);
+
+    &:first-of-type {
+      border: 0;
+    }
+
+    &.router-link-exact-active {
+      color: var(--color-text);
+    }
+
+    &.router-link-exact-active:hover {
+      background-color: transparent;
+    }
+  }
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
+.wrapper {
+  :deep(.home-page) {
+    max-width: 767px;
+    margin-inline: auto;
+  }
 }
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
 }
 
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 
-nav a:first-of-type {
-  border: 0;
+// Tablet
+@media (min-width: 768px) {
 }
 
-@media (min-width: 1024px) {
+// Desktop
+@media (min-width: 992px) {
   header {
     display: flex;
     place-items: center;

@@ -1,6 +1,8 @@
 export type SeriesGenre = {
-  name: string;
-  description: string;
+  [key: string]: {
+    name: string;
+    description: string;
+  };
 };
 
 export type Show = {
@@ -84,4 +86,95 @@ export type Episode = {
       href: string;
     };
   };
+};
+
+// export type Rating = {
+//   average: number;
+// };
+
+// export type Image = {
+//   medium: string;
+//   original: string;
+// };
+
+// export type Links = {
+//   self: {
+//       href: string;
+//   };
+//   show: {
+//       href: string;
+//   };
+// };
+
+// export type Episode = {
+//   id: number;
+//   url: string;
+//   name: string;
+//   season: number;
+//   number: number;
+//   type: string;
+//   airdate: string;
+//   airtime: string;
+//   airstamp: string;
+//   runtime: number;
+//   rating: Rating;
+//   image: Image;
+//   summary: string;
+//   _links: Links;
+// };
+
+export type Country = {
+  name: string;
+  code: string;
+  timezone: string;
+};
+
+export type Image = {
+  medium: string;
+  original: string;
+};
+
+export type Links = {
+  self: {
+    href: string;
+  };
+};
+
+export type Person = {
+  id: number;
+  url: string;
+  name: string;
+  country: Country;
+  birthday: string;
+  deathday: string | null;
+  gender: string;
+  image: Image;
+  updated: number;
+  _links: Links;
+};
+
+export type Character = {
+  id: number;
+  url: string;
+  name: string;
+  image: Image | null;
+  _links: Links;
+};
+
+export type CastMember = {
+  person: Person;
+  character: Character;
+  self: boolean;
+  voice: boolean;
+};
+
+export const SERIE_DETAILS_TAB = {
+  Episodes: "Episodes",
+  Cast: "Cast",
+} as const;
+
+export type SerieDetailsTab = keyof typeof SERIE_DETAILS_TAB;
+
+export type EpisodesGroupedBySeason = {
+  [season: number]: Episode[];
 };
