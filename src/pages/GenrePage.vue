@@ -80,12 +80,6 @@ const openShowHandler = (showId: Show["id"]) => {
 
 <style lang="scss" scoped>
 .genre-page {
-  header {
-    h2 {
-      font-size: 3rem;
-    }
-  }
-
   &__content {
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* Starts with 2 columns */
