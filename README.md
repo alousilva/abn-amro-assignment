@@ -36,6 +36,7 @@ Features:
 - [X] List show for a given genre
 - [X] List show cast
 - [X] Search for shows
+- [X] Lazy load images
 - [ ] View all shows on results from search
       - only list all the shows for a given category based on the results of the search
 - [ ] Save favorites

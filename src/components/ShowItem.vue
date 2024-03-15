@@ -5,12 +5,12 @@
     @click="$emit('open-show-details', props.show?.id)"
     @keydown.enter="$emit('open-show-details', props.show?.id)"
   >
-    <img :src="props.show?.image?.medium" />
-    <!-- <span class="show-item__name">{{ props.show?.name }}</span> -->
+    <v-lazy-image :src="props.show?.image?.medium || ''" :alt="`image for ${props.show?.name}`" />
   </div>
 </template>
 
 <script setup lang="ts">
+import VLazyImage from "v-lazy-image";
 import type { Show } from "@/types";
 
 const props = withDefaults(defineProps<{ show: Show | null }>(), {
@@ -28,13 +28,19 @@ defineEmits(["open-show-details"]);
   gap: var(--spacing-small) var(--spacing-none);
   border-radius: var(--border-radius);
   cursor: pointer;
+  z-index: 0;
 
   img {
     border-radius: inherit;
   }
 
-  // &__name {
-  //   font-weight: var(--font-weight-1);
-  // }
+  &:hover,
+  &:focus {
+    transform: scale(1.05, 1.05);
+    box-shadow: 0 12px 32px var(--color-box-shadow);
+    transition-duration: 300ms;
+    transition-property: transform, box-shadow;
+    transition-timing-function: ease-out;
+  }
 }
 </style>

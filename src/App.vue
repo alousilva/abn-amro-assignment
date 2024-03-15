@@ -5,9 +5,12 @@ import { RouterLink, RouterView } from "vue-router";
 <template>
   <div class="wrapper">
     <nav class="wrapper__navigation">
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/favorites">Favorites</RouterLink>
-      <RouterLink to="/surprise">Surprise me</RouterLink>
+      <div>TvMaze</div>
+      <div class="wrapper__navigation-links">
+        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/favorites">Favorites</RouterLink>
+        <RouterLink to="/surprise">Surprise me</RouterLink>
+      </div>
     </nav>
     <div class="wrapper__content">
       <router-view v-slot="{ Component }">
@@ -21,15 +24,20 @@ import { RouterLink, RouterView } from "vue-router";
 
 <style lang="scss" scoped>
 .wrapper {
-  max-width: 1280px;
+  // max-width: 1280px;
 
   &__navigation {
     position: fixed;
     top: 0;
+    left: 0;
+    background-color: rgb(203, 247, 232);
     width: 100%;
     font-size: 12px;
-    text-align: center;
-    height: 40px;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
 
     // background-color: rgb(194, 245, 245);
 
@@ -53,11 +61,12 @@ import { RouterLink, RouterView } from "vue-router";
   }
 
   &__content {
-    margin-top: 2rem;
-    :deep(.home-page) {
-      max-width: 767px;
-      margin-inline: auto;
-    }
+    margin-top: 5rem;
+
+    // :deep(.home-page) {
+    //   max-width: 767px;
+    //   margin-inline: auto;
+    // }
   }
 }
 
@@ -83,23 +92,23 @@ import { RouterLink, RouterView } from "vue-router";
     padding-right: calc(var(--section-gap) / 2);
   }
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+  // .logo {
+  //   margin: 0 2rem 0 0;
+  // }
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+  // header .wrapper {
+  //   display: flex;
+  //   place-items: flex-start;
+  //   flex-wrap: wrap;
+  // }
 
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
+  // nav {
+  //   text-align: left;
+  //   margin-left: -1rem;
+  //   font-size: 1rem;
 
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+  //   padding: 1rem 0;
+  //   margin-top: 1rem;
+  // }
 }
 </style>

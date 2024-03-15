@@ -1,11 +1,17 @@
 <template>
   <div class="cast-item" tabindex="0">
-    <img :src="castMember.character.image?.medium" />
+    <span>Person: {{ castMember.person.name }}</span>
+    <span>Char: {{ castMember.character.name }}</span>
+    <v-lazy-image
+      :src="castMember.character.image?.medium || ''"
+      :alt="`image for ${castMember.person.name}`"
+    />
     <!-- <span class="cast-item__name">{{ props.show?.name }}</span> -->
   </div>
 </template>
 
 <script setup lang="ts">
+import VLazyImage from "v-lazy-image";
 import type { CastMember } from "@/types";
 
 defineProps<{ castMember: CastMember }>();

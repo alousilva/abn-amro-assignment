@@ -19,7 +19,10 @@
   --vt-c-text-dark-1: var(--vt-c-white);
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
 
-  --border-radius: 4px;
+  --box-shadow-light: rgba(0, 0, 0, 0.8);
+  --box-shadow-dark: rgba(247, 247, 247, 0.445);
+
+  --border-radius: 6px;
 
   --spacing-none: 0;
   --spacing-mini: 2px;
@@ -60,6 +63,8 @@
   --color-heading: var(--vt-c-text-light-1);
   --color-text: var(--vt-c-text-light-1);
 
+  --color-box-shadow: var(--box-shadow-light);
+
   --section-gap: 160px;
 }
 
@@ -74,6 +79,8 @@
 
     --color-heading: var(--vt-c-text-dark-1);
     --color-text: var(--vt-c-text-dark-2);
+
+    --color-box-shadow: var(--box-shadow-dark);
   }
 }
 
