@@ -99,6 +99,12 @@ const openShowHandler = (showId: Show["id"]) => {
 
     @media (min-width: 992px) {
       & {
+        grid-template-columns: repeat(4, 1fr); /* Switches to 5 columns */
+      }
+    }
+
+    @media (min-width: 1280px) {
+      & {
         grid-template-columns: repeat(5, 1fr); /* Switches to 5 columns */
       }
     }

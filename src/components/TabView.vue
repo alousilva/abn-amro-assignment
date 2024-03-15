@@ -43,7 +43,7 @@ watch(selectedHeader, () => {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-none) var(--spacing-small);
-  padding: var(--spacing-medium) var(--spacing-medium);
+  // padding: var(--spacing-medium) var(--spacing-medium);
 
   &__header {
     display: flex;

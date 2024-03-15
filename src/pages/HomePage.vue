@@ -11,11 +11,18 @@
         placeholder="Search shows"
       />
     </header>
-    <main>
+    <!-- <main>
       <span v-if="showsIsPending">Loading shows...</span>
       <span v-else-if="showsIsError">Error: {{ showsError?.message }}</span>
       <shows-grid
         v-else
+        :shows="showsGridData"
+        @open-show-details="openShowHandler"
+        @view-all-shows-by-genre="viewAllShowsByGenreHandler"
+      />
+    </main> -->
+    <main>
+      <shows-grid
         :shows="showsGridData"
         @open-show-details="openShowHandler"
         @view-all-shows-by-genre="viewAllShowsByGenreHandler"
@@ -53,11 +60,12 @@ const {
 });
 
 const {
-  // isLoading,
+  isLoading: showsIsLoading,
   isError: showsIsError,
   data: showsData,
   error: showsError,
   isPending: showsIsPending,
+  isFetching: showsIsFetching,
   // isFetching,
 } = useQuery({
   queryKey: ["shows", page],

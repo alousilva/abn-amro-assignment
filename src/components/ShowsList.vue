@@ -10,6 +10,7 @@
       </button>
     </div>
     <div class="shows-list__items">
+      <!-- <show-item-skeleton v-if="props.isLoading" /> -->
       <show-item
         v-for="show in showsSortedByRating"
         :key="show.id"
@@ -22,6 +23,7 @@
 
 <script setup lang="ts">
 import ShowItem from "@/components/ShowItem.vue";
+// import ShowItemSkeleton from "@/components/ShowItemSkeleton.vue";
 import type { Show } from "@/types";
 import { computed } from "vue";
 

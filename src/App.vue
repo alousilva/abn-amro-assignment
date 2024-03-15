@@ -14,7 +14,7 @@ import { RouterLink, RouterView } from "vue-router";
     </nav>
     <div class="wrapper__content">
       <router-view v-slot="{ Component }">
-        <transition name="fade">
+        <transition name="fade" mode="out-in">
           <component :is="Component" />
         </transition>
       </router-view>
@@ -52,6 +52,7 @@ import { RouterLink, RouterView } from "vue-router";
 
       &.router-link-exact-active {
         color: var(--color-text);
+        border-bottom: 2px solid green;
       }
 
       &.router-link-exact-active:hover {
@@ -70,15 +71,25 @@ import { RouterLink, RouterView } from "vue-router";
   }
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
+.fade-leave-active,
+.fade-enter-active {
+  transition: opacity 0.5s ease-out;
 }
 
-.fade-enter-from,
-.fade-leave-to {
+.fade-leave-to,
+.fade-enter-from {
   opacity: 0;
 }
+
+// .fade-enter-active,
+// .fade-leave-active {
+//   transition: opacity 0.5s ease;
+// }
+
+// .fade-enter-from,
+// .fade-leave-to {
+//   opacity: 0;
+// }
 
 // Tablet
 @media (min-width: 768px) {

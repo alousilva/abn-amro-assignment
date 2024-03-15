@@ -33,10 +33,5 @@ withDefaults(defineProps<{ castMembers: CastMember[] }>(), {
       grid-template-columns: repeat(5, 1fr); /* Switches to 5 columns */
     }
   }
-  :deep(.episode-item) {
-    background-color: #f2f2f2;
-    padding: var(--spacing-normal);
-    text-align: center;
-  }
 }
 </style>

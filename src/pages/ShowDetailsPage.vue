@@ -1,22 +1,22 @@
 <template>
   <div class="show-details-page">
     <!-- wait for data to load. show skeleton -->
-    <main class="show-details-page__content">
-      <img :src="showData?.image.medium" />
-      <div class="show-details-page__title">{{ showData?.name }}</div>
+    <main v-if="showData" class="show-details-page__content">
+      <img :src="showData.image?.medium" />
+      <div class="show-details-page__title">{{ showData.name }}</div>
       <div class="show-details-page__container">
         <div class="show-details-page__container-top">
-          <span>{{ showData?.runtime }} min</span>
+          <span>{{ showData.runtime }} min</span>
           <span>{{ showAiringDates }}</span>
         </div>
         <div class="show-details-page__container-middle">
           <div class="show-details-page__summary" v-html="showData?.summary"></div>
           <div class="show-details-page__genres">
-            <tag-item v-for="genre in showData?.genres" :key="genre" :text="genre" />
+            <tag-item v-for="genre in showData.genres" :key="genre" :text="genre" />
           </div>
         </div>
         <div class="show-details-page__container-bottom">
-          Favorite ME
+          <button @click="favoriteToggleHandler(showData)">Favorite me</button>
           <span>{{ showData?.rating.average || "?" }} / 10</span>
           <a
             :href="`https://www.imdb.com/title/${showData?.externals.imdb}`"
@@ -49,13 +49,16 @@ import TagItem from "@/components/TagItem.vue";
 import { SHOW_DETAILS_TAB } from "@/utils/constants";
 import { fetchCastByShowId, fetchEpisodesByShowId, fetchShowById } from "@/stores/api";
 import { useQuery } from "@tanstack/vue-query";
-import { type ShowDetailsTab } from "@/types";
+import { type Show, type ShowDetailsTab } from "@/types";
 import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
+import { useFavoritesStore } from "@/stores/favorites";
 
 // TODO: add functionality to go to a specific tab via router
 
 const route = useRoute();
+const store = useFavoritesStore();
+const { addShowToFavorites } = store;
 // const page = ref(1);
 
 const currentDetailsTab = ref<ShowDetailsTab>(SHOW_DETAILS_TAB.Episodes);
@@ -94,6 +97,11 @@ const { data: castData, error: castError } = useQuery({
   // @ts-ignore This field is not defined in the vue-query types
   keepPreviousData: true,
 });
+
+const favoriteToggleHandler = (show: Show) => {
+  console.log("favoriteToggleHandler", show);
+  addShowToFavorites(show);
+};
 
 const showAiringDates = computed(() => {
   return `${showData.value?.premiered} - ${showData.value?.ended ? showData.value.ended : "now"}`;

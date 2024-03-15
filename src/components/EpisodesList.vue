@@ -1,13 +1,20 @@
 <template>
   <div class="episodes-list">
-    <div
-      class="episodes-list__season"
-      v-for="group in Object.entries(episodesGroupedBySeason)"
-      :key="group[0]"
-    >
-      <div class="episodes-list__season-header">Season {{ group[0] }}</div>
+    <select name="pets" id="pet-select" v-model="selectedSeason">
+      <option v-for="season in Object.keys(episodesGroupedBySeason)" :key="season" :value="season">
+        Season {{ season }}
+      </option>
+    </select>
+    <div class="episodes-list__season">
+      <div class="episodes-list__season-header">
+        Episodes {{ episodesOfSelectedSeason?.length }}
+      </div>
       <div class="episodes-list__season-contents">
-        <episode-item v-for="episode in group[1]" :key="episode.id" :episode="episode" />
+        <episode-item
+          v-for="episode in episodesOfSelectedSeason"
+          :key="episode.id"
+          :episode="episode"
+        />
       </div>
     </div>
   </div>
@@ -15,12 +22,20 @@
 <script setup lang="ts">
 import EpisodeItem from "@/components/EpisodeItem.vue";
 import type { Episode, EpisodesGroupedBySeason } from "@/types";
-import { computed } from "vue";
+import { computed, ref, watch } from "vue";
 
 const props = withDefaults(defineProps<{ episodes: Episode[] }>(), {
   episodes: () => [],
 });
 
+const selectedSeason = ref<null | number>(null);
+
+watch(
+  () => props.episodes,
+  () => {
+    selectedSeason.value = props.episodes[0]?.season || 1;
+  },
+);
 // check World Series of Poker. Has a funky grouping
 const episodesGroupedBySeason = computed(() => {
   return props.episodes.reduce((acc: EpisodesGroupedBySeason, episode) => {
@@ -32,6 +47,12 @@ const episodesGroupedBySeason = computed(() => {
     return acc;
   }, {});
 });
+
+// console.log(Object.keys(episodesGroupedBySeason.value)[0]);
+
+const episodesOfSelectedSeason = computed(() => {
+  return episodesGroupedBySeason.value[selectedSeason.value];
+});
 </script>
 
 <style lang="scss" scoped>
@@ -40,26 +61,24 @@ const episodesGroupedBySeason = computed(() => {
     font-size: var(--font-size-4);
   }
   &__season-contents {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Starts with 2 columns */
-    grid-gap: var(--spacing-normal);
+    display: flex;
+    flex-direction: column;
+    gap: 40px 0;
+    // display: grid;
+    // grid-template-columns: repeat(1, 1fr); /* Starts with 1 column */
+    // grid-gap: var(--spacing-normal);
 
-    @media (min-width: 768px) {
-      & {
-        grid-template-columns: repeat(3, 1fr); /* Switches to 3 columns */
-      }
-    }
+    // @media (min-width: 768px) {
+    //   & {
+    //     grid-template-columns: repeat(3, 1fr); /* Switches to 3 columns */
+    //   }
+    // }
 
-    @media (min-width: 992px) {
-      & {
-        grid-template-columns: repeat(5, 1fr); /* Switches to 5 columns */
-      }
-    }
-    :deep(.episode-item) {
-      background-color: #992b2b;
-      padding: var(--spacing-normal);
-      text-align: center;
-    }
+    // @media (min-width: 992px) {
+    //   & {
+    //     grid-template-columns: repeat(5, 1fr); /* Switches to 5 columns */
+    //   }
+    // }
   }
 }
 </style>
