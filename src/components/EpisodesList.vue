@@ -1,14 +1,21 @@
 <template>
   <div class="episodes-list">
-    <select name="pets" id="pet-select" v-model="selectedSeason">
-      <option v-for="season in Object.keys(episodesGroupedBySeason)" :key="season" :value="season">
-        Season {{ season }}
-      </option>
-    </select>
+    <div class="episodes-list__header">
+      <!-- <drop-down :options="Object.keys(episodesGroupedBySeason)" v-model="selectedSeason"
+        >Season</drop-down
+      > -->
+      <select name="season-select" id="season-select" v-model="selectedSeason">
+        <option
+          v-for="season in Object.keys(episodesGroupedBySeason)"
+          :key="season"
+          :value="season"
+        >
+          Season {{ season }}
+        </option>
+      </select>
+      <span>{{ episodesOfSelectedSeason?.length }} episodes</span>
+    </div>
     <div class="episodes-list__season">
-      <div class="episodes-list__season-header">
-        Episodes {{ episodesOfSelectedSeason?.length }}
-      </div>
       <div class="episodes-list__season-contents">
         <episode-item
           v-for="episode in episodesOfSelectedSeason"
@@ -21,6 +28,7 @@
 </template>
 <script setup lang="ts">
 import EpisodeItem from "@/components/EpisodeItem.vue";
+// import DropDown from "@/components/DropDown.vue";
 import type { Episode, EpisodesGroupedBySeason } from "@/types";
 import { computed, ref, watch } from "vue";
 
@@ -28,13 +36,14 @@ const props = withDefaults(defineProps<{ episodes: Episode[] }>(), {
   episodes: () => [],
 });
 
-const selectedSeason = ref<null | number>(null);
+const selectedSeason = ref<number>(1);
 
 watch(
   () => props.episodes,
   () => {
     selectedSeason.value = props.episodes[0]?.season || 1;
   },
+  { immediate: true },
 );
 // check World Series of Poker. Has a funky grouping
 const episodesGroupedBySeason = computed(() => {
@@ -48,8 +57,6 @@ const episodesGroupedBySeason = computed(() => {
   }, {});
 });
 
-// console.log(Object.keys(episodesGroupedBySeason.value)[0]);
-
 const episodesOfSelectedSeason = computed(() => {
   return episodesGroupedBySeason.value[selectedSeason.value];
 });
@@ -57,7 +64,9 @@ const episodesOfSelectedSeason = computed(() => {
 
 <style lang="scss" scoped>
 .episodes-list {
-  &__season-header {
+  &__header {
+    display: flex;
+    gap: 0 20px;
     font-size: var(--font-size-4);
   }
   &__season-contents {

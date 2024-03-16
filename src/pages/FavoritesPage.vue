@@ -2,6 +2,9 @@
   <div class="favorites-page">
     <header>
       <h2>Your favorite shows</h2>
+      <div v-if="shows.length > 0" class="favorites-page__controls">
+        <button @click="resetFavorites">Clear all favorites</button>
+      </div>
     </header>
     <main>
       <div v-if="shows.length > 0" class="favorites-page__content">
@@ -31,7 +34,7 @@ const router = useRouter();
 
 const store = useFavoritesStore();
 const { shows } = storeToRefs(store);
-const { addShowToFavorites, removeShowFromFavorites } = store;
+const { addShowToFavorites, removeShowFromFavorites, resetFavorites } = store;
 
 const openShowHandler = (showId: Show["id"]) => {
   router.push({
@@ -42,6 +45,18 @@ const openShowHandler = (showId: Show["id"]) => {
 
 <style lang="scss" scoped>
 .favorites-page {
+  header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__controls {
+    display: flex;
+
+    button {
+      margin-left: auto;
+    }
+  }
   &__content {
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* Starts with 2 columns */

@@ -3,7 +3,7 @@
     <div class="shows-list__title">
       <span>{{ genreName }}</span>
       <button
-        v-if="filteredShowsByGenre.length > 5"
+        v-if="viewAllButtonVisibility"
         @click="$emit('view-all-shows-by-genre', props.genreType)"
       >
         View all
@@ -31,11 +31,15 @@ type Props = {
   genreType: string;
   genreName: string;
   shows: Show[];
+  viewAllButtonIsVisible: boolean;
+  maxVisibleItems?: number;
 };
 
 const props = withDefaults(defineProps<Props>(), {
   genreType: "",
   genreName: "",
+  viewAllButtonIsVisible: false,
+  maxVisibleItems: 7,
   shows: () => [],
 });
 
@@ -54,15 +58,21 @@ const showsSortedByRating = computed(() => {
     return Number(showB.rating.average || 0) - Number(showA.rating.average || 0);
   });
 
-  return sortedByRating.slice(0, 5);
+  if (props.viewAllButtonIsVisible) {
+    return sortedByRating.slice(0, props.maxVisibleItems);
+  }
+  return sortedByRating;
+});
+
+const viewAllButtonVisibility = computed(() => {
+  return props.viewAllButtonIsVisible && filteredShowsByGenre.value.length > props.maxVisibleItems;
 });
 </script>
 
 <style lang="scss" scoped>
 .shows-list {
   display: block;
-  // flex-direction: column;
-  // gap: 0 30px;
+  // add media queries
 
   &__title {
     display: flex;
@@ -76,6 +86,9 @@ const showsSortedByRating = computed(() => {
     display: flex;
     // flex-direction: column;
     gap: 0 30px;
+    max-width: 800px;
+    overflow-y: auto;
+    padding: 40px 0;
   }
 }
 </style>

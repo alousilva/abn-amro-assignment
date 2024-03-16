@@ -26,14 +26,10 @@ const router = createRouter({
       component: () => import("../pages/FavoritesPage.vue"),
     },
     {
-      path: "/surprise",
-      name: "surprise",
-      component: () => import("../pages/SurpriseMePage.vue"),
-    },
-    {
       path: "/:pathName(.*)",
       name: "not-found",
       // TODO: fix transition warning
+      // check https://stackoverflow.com/questions/65553121/vue-3-transition-renders-non-element-root-node-that-cannot-be-animated
       component: NotFoundPage,
     },
   ],

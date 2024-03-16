@@ -8,7 +8,7 @@
       }"
       aria-label="Clear input"
       title="Clear input"
-      @click="debouncedInputChange('')"
+      @click="debouncedInputChange"
     >
       X
     </button>
@@ -26,7 +26,7 @@ const props = withDefaults(defineProps<{ modelValue: string; debounceDelay?: num
 const emits = defineEmits(["update:model-value"]);
 
 const handleInputChange = (data: Event) => {
-  emits("update:model-value", data.target?.value);
+  emits("update:model-value", data.target?.value || "");
 };
 
 const debouncedInputChange = debounce(handleInputChange, props.debounceDelay);

@@ -24,6 +24,7 @@
     <main>
       <shows-grid
         :shows="showsGridData"
+        :view-all-button-is-visible="viewAllButtonIsVisible"
         @open-show-details="openShowHandler"
         @view-all-shows-by-genre="viewAllShowsByGenreHandler"
       />
@@ -81,6 +82,10 @@ const showsGridData = computed(() => {
   } else {
     return showsData.value;
   }
+});
+
+const viewAllButtonIsVisible = computed(() => {
+  return !searchKeyword.value;
 });
 
 const openShowHandler = (showId: Show["id"]) => {

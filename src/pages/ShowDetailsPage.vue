@@ -16,7 +16,7 @@
           </div>
         </div>
         <div class="show-details-page__container-bottom">
-          <button @click="favoriteToggleHandler(showData)">Favorite me</button>
+          <favorite-button @click="favoriteToggleHandler(showData)" v-model="showIsFavorited" />
           <span>{{ showData?.rating.average || "?" }} / 10</span>
           <a
             :href="`https://www.imdb.com/title/${showData?.externals.imdb}`"
@@ -42,6 +42,7 @@
 <script setup lang="ts">
 import IconImdb from "@/components/icons/IconImdb.vue";
 import CastList from "@/components/CastList.vue";
+import FavoriteButton from "@/components/FavoriteButton.vue";
 import EpisodesList from "@/components/EpisodesList.vue";
 import TabPanel from "@/components/TabPanel.vue";
 import TabView from "@/components/TabView.vue";
@@ -50,7 +51,7 @@ import { SHOW_DETAILS_TAB } from "@/utils/constants";
 import { fetchCastByShowId, fetchEpisodesByShowId, fetchShowById } from "@/stores/api";
 import { useQuery } from "@tanstack/vue-query";
 import { type Show, type ShowDetailsTab } from "@/types";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useFavoritesStore } from "@/stores/favorites";
 
@@ -58,7 +59,7 @@ import { useFavoritesStore } from "@/stores/favorites";
 
 const route = useRoute();
 const store = useFavoritesStore();
-const { addShowToFavorites } = store;
+const { addShowToFavorites, removeShowFromFavorites, isShowInFavorites } = store;
 // const page = ref(1);
 
 const currentDetailsTab = ref<ShowDetailsTab>(SHOW_DETAILS_TAB.Episodes);
@@ -98,9 +99,23 @@ const { data: castData, error: castError } = useQuery({
   keepPreviousData: true,
 });
 
+const showIsFavorited = ref(false);
+watch(
+  () => showData.value,
+  (show) => {
+    if (show?.id) {
+      showIsFavorited.value = isShowInFavorites(show.id);
+    }
+  },
+  { immediate: true },
+);
+
 const favoriteToggleHandler = (show: Show) => {
-  console.log("favoriteToggleHandler", show);
-  addShowToFavorites(show);
+  if (showIsFavorited.value) {
+    removeShowFromFavorites(show.id);
+  } else {
+    addShowToFavorites(show);
+  }
 };
 
 const showAiringDates = computed(() => {
@@ -108,7 +123,13 @@ const showAiringDates = computed(() => {
 });
 </script>
 
-<style>
+<style lang="scss" scoped>
+.show-details-page {
+  &__genres {
+    display: flex;
+    gap: 0 20px;
+  }
+}
 @media (min-width: 1024px) {
   .about {
     min-height: 100vh;

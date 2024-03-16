@@ -1,15 +1,20 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from "vue-router";
-</script>
-
 <template>
   <div class="wrapper">
     <nav class="wrapper__navigation">
       <div>TvMaze</div>
       <div class="wrapper__navigation-links">
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/favorites">Favorites</RouterLink>
-        <RouterLink to="/surprise">Surprise me</RouterLink>
+        <RouterLink to="/">
+          <div class="wrapper__navigation-links-item">
+            <icon-home />
+            <span>Home</span>
+          </div>
+        </RouterLink>
+        <RouterLink to="/favorites">
+          <div class="wrapper__navigation-links-item">
+            <icon-favorite />
+            <span>Favorites</span>
+          </div>
+        </RouterLink>
       </div>
     </nav>
     <div class="wrapper__content">
@@ -21,6 +26,12 @@ import { RouterLink, RouterView } from "vue-router";
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import IconHome from "@/components/icons/IconHome.vue";
+import IconFavorite from "@/components/icons/IconFavorite.vue";
+import { RouterLink, RouterView } from "vue-router";
+</script>
 
 <style lang="scss" scoped>
 .wrapper {
@@ -39,12 +50,29 @@ import { RouterLink, RouterView } from "vue-router";
     justify-content: space-between;
     z-index: 100;
 
+    &-links {
+      width: 250px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+
+      &-item {
+        display: flex;
+        width: 100px;
+        align-items: center;
+
+        span {
+          display: none;
+        }
+      }
+    }
+
     // background-color: rgb(194, 245, 245);
 
     a {
       display: inline-block;
       padding: 0 1rem;
-      border-left: 1px solid var(--color-border);
+      // border-left: 1px solid var(--color-border);
 
       &:first-of-type {
         border: 0;
@@ -52,7 +80,7 @@ import { RouterLink, RouterView } from "vue-router";
 
       &.router-link-exact-active {
         color: var(--color-text);
-        border-bottom: 2px solid green;
+        // border-bottom: 2px solid green;
       }
 
       &.router-link-exact-active:hover {
@@ -69,6 +97,19 @@ import { RouterLink, RouterView } from "vue-router";
     //   margin-inline: auto;
     // }
   }
+
+  // Tablet
+  @media (min-width: 768px) {
+    &__navigation {
+      &-links {
+        &-item {
+          span {
+            display: block;
+          }
+        }
+      }
+    }
+  }
 }
 
 .fade-leave-active,
@@ -79,20 +120,6 @@ import { RouterLink, RouterView } from "vue-router";
 .fade-leave-to,
 .fade-enter-from {
   opacity: 0;
-}
-
-// .fade-enter-active,
-// .fade-leave-active {
-//   transition: opacity 0.5s ease;
-// }
-
-// .fade-enter-from,
-// .fade-leave-to {
-//   opacity: 0;
-// }
-
-// Tablet
-@media (min-width: 768px) {
 }
 
 // Desktop

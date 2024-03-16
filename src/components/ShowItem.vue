@@ -29,6 +29,7 @@ defineEmits(["open-show-details"]);
   border-radius: var(--border-radius);
   cursor: pointer;
   z-index: 0;
+  max-height: 300px;
 
   img {
     border-radius: inherit;
@@ -37,7 +38,7 @@ defineEmits(["open-show-details"]);
   &:hover,
   &:focus {
     transform: scale(1.05, 1.05);
-    box-shadow: 0 12px 32px var(--color-box-shadow);
+    // box-shadow: 0 12px 32px var(--color-box-shadow);
     transition-duration: 300ms;
     transition-property: transform, box-shadow;
     transition-timing-function: ease-out;
