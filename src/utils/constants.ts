@@ -1,4 +1,4 @@
-import type { ShowGenres } from "@/types";
+import type { ShowGenres, ShowGenresMap } from "@/types";
 
 export const showGenres: ShowGenres = {
   action: {
@@ -81,9 +81,20 @@ export const showGenres: ShowGenres = {
   },
 };
 
-// export const showGenresList = Object.entries(showGenres);
+const populateShowGenresMap = (map: ShowGenresMap, genresObject: ShowGenres) => {
+  for (const key of Object.keys(genresObject)) {
+    map.set(showGenres[key].name, {
+      code: key,
+      name: showGenres[key].name,
+      description: showGenres[key].description,
+    });
+  }
+};
 
-export const SHOW_DETAILS_TAB = {
-  Episodes: "Episodes",
-  Cast: "Cast",
+export const showGenresMap: ShowGenresMap = new Map();
+populateShowGenresMap(showGenresMap, showGenres);
+
+export const showDetailsTab = {
+  episodes: "Episodes",
+  cast: "Cast",
 } as const;

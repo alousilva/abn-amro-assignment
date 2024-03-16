@@ -2,6 +2,7 @@
   <div class="genre-page">
     <header>
       <h2>{{ genreName }}</h2>
+      <span>{{ showGenres[selectedGenre]?.description }}</span>
     </header>
     <main>
       <div v-if="selectedGenreIsValid" class="genre-page__content">
@@ -22,7 +23,7 @@
         <p>
           The genre <strong>{{ selectedGenre }}</strong> does not exist.
         </p>
-        <icon-sad-face />
+        <img :src="IconSadFace" alt="genre not found icon" />
       </div>
     </main>
   </div>
@@ -30,7 +31,7 @@
 
 <script setup lang="ts">
 import ShowItem from "@/components/ShowItem.vue";
-import IconSadFace from "@/components/icons/IconSadFace.vue";
+import IconSadFace from "@/assets/icon-sad-face.svg?url";
 import { fetchShows } from "@/stores/api";
 import type { Show } from "@/types";
 import { showGenres } from "@/utils/constants";

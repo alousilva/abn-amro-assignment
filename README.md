@@ -31,14 +31,15 @@ unit tests
 Features:
 
 - [X] List shows
-- [X] List show for a given genre
+- [ ] List shows for a given genre
 - [X] Search for shows
 - [X] Detailed show view
   - [X] List show episodes
   - [X] List show cast
 - [X] Lazy load images
 - [X] Save favorites
-- [ ] Dark / light mode
+- [X] Dark / light mode
+
 
 ```js
 const genres = [

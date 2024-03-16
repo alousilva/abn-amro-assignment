@@ -3,10 +3,10 @@
     <h2>The page you are trying to access does not exist</h2>
   </header>
   <main>
-    <icon-page-not-found />
+    <img :src="IconPageNotFound" alt="page not found icon" />
   </main>
 </template>
 
 <script setup lang="ts">
-import IconPageNotFound from "@/components/icons/IconPageNotFound.vue";
+import IconPageNotFound from "@/assets/icon-page-not-found.svg";
 </script>

@@ -12,7 +12,7 @@
           :src="episode.image.medium || ''"
           :alt="`image for ${episode.name}`"
         />
-        <icon-no-image v-else />
+        <img v-else :src="IconNoImage" alt="no image to display icon" />
       </div>
       <div>
         <span>Episode {{ episode.number }}: {{ episode.name }}</span>
@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import IconNoImage from "@/components/icons/IconNoImage.vue";
+import IconNoImage from "@/assets/icon-no-image.svg?url";
 import VLazyImage from "v-lazy-image";
 import type { Episode } from "@/types";
 

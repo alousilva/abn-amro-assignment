@@ -35,6 +35,7 @@ defineEmits(["open-show-details", "view-all-shows-by-genre"]);
   display: flex;
 
   &__content {
+    max-width: 500px;
     display: flex;
     flex-direction: column;
     gap: var(--spacing-xlarge) var(--spacing-none);
@@ -60,6 +61,13 @@ defineEmits(["open-show-details", "view-all-shows-by-genre"]);
     width: 400px;
     height: 100vh;
     background-color: red;
+  }
+
+  // Tablet
+  @media (min-width: 768px) {
+    &__content {
+      max-width: 900px;
+    }
   }
 }
 </style>

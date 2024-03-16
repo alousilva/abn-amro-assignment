@@ -12,25 +12,33 @@
         <div class="show-details-page__container-middle">
           <div class="show-details-page__summary" v-html="showData?.summary"></div>
           <div class="show-details-page__genres">
-            <tag-item v-for="genre in showData.genres" :key="genre" :text="genre" />
+            <tag-item
+              v-for="genre in showData.genres"
+              :key="genre"
+              :text="genre"
+              tabindex="0"
+              @click="goToGenre(genre)"
+              @keydown.enter="goToGenre(genre)"
+            />
           </div>
         </div>
         <div class="show-details-page__container-bottom">
           <favorite-button @click="favoriteToggleHandler(showData)" v-model="showIsFavorited" />
           <span>{{ showData?.rating.average || "?" }} / 10</span>
           <a
-            :href="`https://www.imdb.com/title/${showData?.externals.imdb}`"
+            v-if="showData?.externals?.imdb"
+            :href="`https://www.imdb.com/title/${showData.externals.imdb}`"
             :aria-label="showData?.name"
             target="_blank"
-            ><icon-imdb />
+            ><img :src="IconImdb" alt="imdb icon" />
           </a>
         </div>
 
         <tab-view @selected-header="selectedTabHeadeHandler">
-          <tab-panel :header="SHOW_DETAILS_TAB.Episodes">
+          <tab-panel :header="showDetailsTab.episodes">
             <episodes-list :episodes="episodesData" />
           </tab-panel>
-          <tab-panel :header="SHOW_DETAILS_TAB.Cast">
+          <tab-panel :header="showDetailsTab.cast">
             <cast-list :cast-members="castData" />
           </tab-panel>
         </tab-view>
@@ -40,34 +48,35 @@
 </template>
 
 <script setup lang="ts">
-import IconImdb from "@/components/icons/IconImdb.vue";
+import IconImdb from "@/assets/icon-imdb.svg?url";
 import CastList from "@/components/CastList.vue";
 import FavoriteButton from "@/components/FavoriteButton.vue";
 import EpisodesList from "@/components/EpisodesList.vue";
 import TabPanel from "@/components/TabPanel.vue";
 import TabView from "@/components/TabView.vue";
 import TagItem from "@/components/TagItem.vue";
-import { SHOW_DETAILS_TAB } from "@/utils/constants";
+import { showDetailsTab, showGenresMap } from "@/utils/constants";
 import { fetchCastByShowId, fetchEpisodesByShowId, fetchShowById } from "@/stores/api";
 import { useQuery } from "@tanstack/vue-query";
-import { type Show, type ShowDetailsTab } from "@/types";
+import { type Show, type ShowDetailsTabs } from "@/types";
 import { computed, ref, watch } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useFavoritesStore } from "@/stores/favorites";
 
 // TODO: add functionality to go to a specific tab via router
 
 const route = useRoute();
+const router = useRouter();
 const store = useFavoritesStore();
 const { addShowToFavorites, removeShowFromFavorites, isShowInFavorites } = store;
 // const page = ref(1);
 
-const currentDetailsTab = ref<ShowDetailsTab>(SHOW_DETAILS_TAB.Episodes);
-const selectedTabHeadeHandler = (currentTab: ShowDetailsTab) => {
+const currentDetailsTab = ref<ShowDetailsTabs>(showDetailsTab.episodes);
+const selectedTabHeadeHandler = (currentTab: ShowDetailsTabs) => {
   currentDetailsTab.value = currentTab;
 };
 
-const selectedShow = ref<number | null>(route.params.id);
+const selectedShow = ref<number>(Number(route.params.id));
 const { data: showData, error: showError } = useQuery({
   queryKey: ["show", route.params.id],
   queryFn: () => {
@@ -81,7 +90,7 @@ const { data: showData, error: showError } = useQuery({
 const { data: episodesData, error: episodesError } = useQuery({
   queryKey: ["episodes", selectedShow],
   queryFn: () => {
-    if (currentDetailsTab.value === SHOW_DETAILS_TAB.Episodes)
+    if (currentDetailsTab.value === showDetailsTab.episodes)
       return fetchEpisodesByShowId(selectedShow);
     return [];
   },
@@ -92,7 +101,7 @@ const { data: episodesData, error: episodesError } = useQuery({
 const { data: castData, error: castError } = useQuery({
   queryKey: ["cast", currentDetailsTab],
   queryFn: () => {
-    if (currentDetailsTab.value === SHOW_DETAILS_TAB.Cast) return fetchCastByShowId(selectedShow);
+    if (currentDetailsTab.value === showDetailsTab.cast) return fetchCastByShowId(selectedShow);
     return [];
   },
   // @ts-ignore This field is not defined in the vue-query types
@@ -118,6 +127,15 @@ const favoriteToggleHandler = (show: Show) => {
   }
 };
 
+const goToGenre = (genre: string) => {
+  const selectedGenre = showGenresMap.get(genre);
+  if (selectedGenre) {
+    router.push({
+      path: `/genre/${selectedGenre.code}`,
+    });
+  }
+};
+
 const showAiringDates = computed(() => {
   return `${showData.value?.premiered} - ${showData.value?.ended ? showData.value.ended : "now"}`;
 });
@@ -128,6 +146,10 @@ const showAiringDates = computed(() => {
   &__genres {
     display: flex;
     gap: 0 20px;
+
+    :deep(.tag-item) {
+      cursor: pointer;
+    }
   }
 }
 @media (min-width: 1024px) {

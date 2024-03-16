@@ -1,4 +1,4 @@
-import type { SHOW_DETAILS_TAB } from "../utils/constants";
+import type { showDetailsTab } from "../utils/constants";
 
 export type ShowGenres = {
   [key: string]: {
@@ -175,8 +175,18 @@ export type CastMember = {
   voice: boolean;
 };
 
-export type ShowDetailsTab = keyof typeof SHOW_DETAILS_TAB;
+type ShowDetailsTabKeys = keyof typeof showDetailsTab;
+export type ShowDetailsTabs = (typeof showDetailsTab)[ShowDetailsTabKeys];
 
 export type EpisodesGroupedBySeason = {
   [season: number]: Episode[];
 };
+
+export type ShowGenresMap = Map<
+  string,
+  {
+    code: string;
+    name: string;
+    description: string;
+  }
+>;

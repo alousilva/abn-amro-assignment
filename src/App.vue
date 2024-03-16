@@ -5,13 +5,13 @@
       <div class="wrapper__navigation-links">
         <RouterLink to="/">
           <div class="wrapper__navigation-links-item">
-            <icon-home />
+            <img :src="IconHome" alt="Home icon" />
             <span>Home</span>
           </div>
         </RouterLink>
         <RouterLink to="/favorites">
           <div class="wrapper__navigation-links-item">
-            <icon-favorite />
+            <img :src="IconFavorite" alt="Favorites icon" />
             <span>Favorites</span>
           </div>
         </RouterLink>
@@ -31,8 +31,9 @@
 </template>
 
 <script setup lang="ts">
-import IconHome from "@/components/icons/IconHome.vue";
-import IconFavorite from "@/components/icons/IconFavorite.vue";
+import IconHome from "@/assets/icon-home.svg?url";
+import IconFavorite from "@/assets/icon-favorite.svg?url";
+
 import { RouterLink, RouterView } from "vue-router";
 import { useThemeStore } from "@/stores/userSettings";
 
@@ -56,6 +57,7 @@ const { toggleDarkMode } = store;
     align-items: center;
     justify-content: space-between;
     z-index: 100;
+    max-width: 500px;
 
     &-links {
       width: 250px;
@@ -108,6 +110,7 @@ const { toggleDarkMode } = store;
   // Tablet
   @media (min-width: 768px) {
     &__navigation {
+      max-width: 900px;
       &-links {
         &-item {
           span {

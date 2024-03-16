@@ -12,14 +12,14 @@
       :src="castMember.character.image.medium || ''"
       :alt="`image for ${castMember.character.name}`"
     />
-    <icon-no-face v-else />
+    <img v-else :src="IconNoFace" alt="face not found icon" />
     <span>Char: {{ castMember.character.name }}</span>
     <!-- <span class="cast-item__name">{{ props.show?.name }}</span> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import IconNoFace from "@/components/icons/IconNoFace.vue";
+import IconNoFace from "@/assets/icon-no-face.svg";
 import VLazyImage from "v-lazy-image";
 import type { CastMember } from "@/types";
 
