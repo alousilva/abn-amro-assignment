@@ -33,9 +33,14 @@ defineProps<{ castMember: CastMember }>();
   align-items: center;
   gap: var(--spacing-small) var(--spacing-none);
   border-radius: var(--border-radius);
+  border: 1px solid red;
+  // background-color: teal;
+  // padding: 20px;
+  max-width: 150px;
 
   img {
     border-radius: inherit;
+    max-width: inherit;
   }
 
   // &__name {

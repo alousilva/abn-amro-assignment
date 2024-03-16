@@ -34,7 +34,7 @@ const router = useRouter();
 
 const store = useFavoritesStore();
 const { shows } = storeToRefs(store);
-const { addShowToFavorites, removeShowFromFavorites, resetFavorites } = store;
+const { resetFavorites } = store;
 
 const openShowHandler = (showId: Show["id"]) => {
   router.push({

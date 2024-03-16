@@ -5,16 +5,24 @@
     </header>
     <main>
       <div v-if="selectedGenreIsValid" class="genre-page__content">
-        <show-item
-          v-for="show in showsSortedByRating"
-          :key="show.id"
-          :show="show"
-          @open-show-details="openShowHandler"
-        />
+        <div class="genre-page__content-items">
+          <show-item
+            v-for="show in filteredShowsByGenre"
+            :key="show.id"
+            :show="show"
+            @open-show-details="openShowHandler"
+          />
+        </div>
+        <div class="genre-page__content-see-more">
+          <span v-if="data?.length === 0">There are no more shows to load</span>
+          <button v-else @click="loadMoreShows">See more shows</button>
+        </div>
       </div>
-      <div v-else>
-        <p>The genre {{ selectedGenre }} does not exist.</p>
-        Put a sad face
+      <div v-else class="genre-page__genre-not-found">
+        <p>
+          The genre <strong>{{ selectedGenre }}</strong> does not exist.
+        </p>
+        <icon-sad-face />
       </div>
     </main>
   </div>
@@ -22,17 +30,18 @@
 
 <script setup lang="ts">
 import ShowItem from "@/components/ShowItem.vue";
+import IconSadFace from "@/components/icons/IconSadFace.vue";
 import { fetchShows } from "@/stores/api";
 import type { Show } from "@/types";
 import { showGenres } from "@/utils/constants";
 import { useQuery } from "@tanstack/vue-query";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
 const router = useRouter();
 
-const selectedGenre = ref<string>(route.params.genre);
+const selectedGenre = ref<string>(route.params.genre as string);
 const genreName = computed(() => {
   return showGenres[selectedGenre.value]?.name || "";
 });
@@ -40,16 +49,9 @@ const selectedGenreIsValid = computed(() => {
   return Object.keys(showGenres).includes(selectedGenre.value);
 });
 
+const loadedShows = ref<Show[]>([]);
 const page = ref(1);
-
-const {
-  // isLoading,
-  isError: showsIsError,
-  data: showsData,
-  error: showsError,
-  isPending: showsIsPending,
-  // isFetching,
-} = useQuery({
+const { isLoading, isError, data, error, isPending, isFetching, refetch } = useQuery({
   queryKey: ["shows", page],
   queryFn: () => {
     if (!genreName.value) return [];
@@ -60,47 +62,87 @@ const {
 });
 
 const filteredShowsByGenre = computed(() => {
-  return showsData.value?.filter((show) => show.genres.includes(genreName.value)) || [];
+  return loadedShows.value?.filter((show) => show.genres.includes(genreName.value)) || [];
 });
 
-const showsSortedByRating = computed(() => {
-  const sortedByRating = [...filteredShowsByGenre.value].sort((showA, showB) => {
-    return Number(showB.rating.average || 0) - Number(showA.rating.average || 0);
-  });
+// const showsSortedByRating = computed(() => {
+//   const sortedByRating = [...filteredShowsByGenre.value].sort((showA, showB) => {
+//     return Number(showB.rating.average || 0) - Number(showA.rating.average || 0);
+//   });
 
-  return sortedByRating;
-});
+//   return sortedByRating;
+// });
+
+const loadMoreShows = () => {
+  page.value += 1;
+};
 
 const openShowHandler = (showId: Show["id"]) => {
   router.push({
     path: `/details/${showId}`,
   });
 };
+
+watch(
+  () => data.value,
+  (shows) => {
+    if (shows && shows.length > 0) {
+      loadedShows.value.push(...shows);
+    }
+  },
+  { immediate: true },
+);
 </script>
 
 <style lang="scss" scoped>
 .genre-page {
   &__content {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Starts with 2 columns */
-    grid-gap: var(--spacing-normal);
+    display: flex;
+    flex-direction: column;
 
-    @media (min-width: 768px) {
-      & {
-        grid-template-columns: repeat(3, 1fr); /* Switches to 3 columns */
+    &-see-more {
+      margin: 20px auto;
+
+      button {
+        height: 50px;
+        width: 300px;
       }
     }
 
-    @media (min-width: 992px) {
-      & {
-        grid-template-columns: repeat(4, 1fr); /* Switches to 5 columns */
+    &-items {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* Starts with 2 columns */
+      grid-gap: var(--spacing-normal);
+
+      @media (min-width: 768px) {
+        & {
+          grid-template-columns: repeat(3, 1fr); /* Switches to 3 columns */
+        }
+      }
+
+      @media (min-width: 992px) {
+        & {
+          grid-template-columns: repeat(4, 1fr); /* Switches to 5 columns */
+        }
+      }
+
+      @media (min-width: 1280px) {
+        & {
+          grid-template-columns: repeat(5, 1fr); /* Switches to 5 columns */
+        }
       }
     }
+  }
 
-    @media (min-width: 1280px) {
-      & {
-        grid-template-columns: repeat(5, 1fr); /* Switches to 5 columns */
-      }
+  &__genre-not-found {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 600px;
+    margin-inline: auto;
+
+    svg {
+      max-width: 100px;
     }
   }
 }

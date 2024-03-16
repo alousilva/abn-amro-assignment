@@ -16,6 +16,9 @@
           </div>
         </RouterLink>
       </div>
+      <div class="theme">
+        <button @click="toggleDarkMode">theme</button>
+      </div>
     </nav>
     <div class="wrapper__content">
       <router-view v-slot="{ Component }">
@@ -31,6 +34,10 @@
 import IconHome from "@/components/icons/IconHome.vue";
 import IconFavorite from "@/components/icons/IconFavorite.vue";
 import { RouterLink, RouterView } from "vue-router";
+import { useThemeStore } from "@/stores/userSettings";
+
+const store = useThemeStore();
+const { toggleDarkMode } = store;
 </script>
 
 <style lang="scss" scoped>

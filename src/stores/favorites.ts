@@ -17,7 +17,6 @@ export const useFavoritesStore = defineStore("favorites", () => {
   };
 
   const shows = ref<Show[]>(loadDataFromLocalStorage());
-  loadDataFromLocalStorage();
 
   const addShowToFavorites = (show: Show) => {
     if (shows.value.some((item) => item.id === show.id)) return;
