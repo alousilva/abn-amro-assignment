@@ -62,19 +62,24 @@ const episodesOfSelectedSeason = computed(() => {
 .episodes-list {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-normal) 0;
+  gap: var(--spacing-normal) var(--spacing-none);
   padding-top: var(--spacing-normal);
 
   &__header {
     display: flex;
-    gap: 0 var(--spacing-normal);
+    align-items: center;
+    gap: var(--spacing-none) var(--spacing-normal);
     font-size: var(--font-size-4);
+
+    select {
+      height: 32px;
+    }
   }
 
   &__season-contents {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-normal) 0;
+    gap: var(--spacing-normal) var(--spacing-none);
   }
 }
 </style>
