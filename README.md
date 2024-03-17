@@ -37,7 +37,6 @@ const genres = {
 
 TODO:
 code optimizations  
-unit tests
 
 Features:
 
@@ -117,3 +116,16 @@ npm run test:e2e
 ```sh
 npm run lint
 ```
+
+### Future features
+
+- Virtualization
+- Use the toaster component across the app
+- Enhance the search functionality:
+  - Single search with embed episodes
+  - Show alternate lists
+  - Show streaming schedule
+- Improve the UI/UX:
+  - Allow the user to favorite/unfavorite a show from its cover (outside the ShowDetailsPage)
+  - Better responsiveness
+  - Increase a11y

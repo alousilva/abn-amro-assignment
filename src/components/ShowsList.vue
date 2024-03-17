@@ -1,5 +1,5 @@
 <template>
-  <div class="shows-list" v-if="contentIsVisible">
+  <div class="shows-list">
     <div class="shows-list__title">
       <span>{{ genreName }}</span>
       <button
@@ -26,11 +26,11 @@
 <script setup lang="ts">
 import ShowItem from "@/components/ShowItem.vue";
 import type { Show } from "@/types";
+import { showGenres } from "@/utils/constants";
 import { computed } from "vue";
 
 type Props = {
   genreType: string;
-  genreName: string;
   shows: Show[];
   viewAllButtonIsVisible: boolean;
   maxVisibleItems?: number;
@@ -38,24 +38,15 @@ type Props = {
 
 const props = withDefaults(defineProps<Props>(), {
   genreType: "",
-  genreName: "",
-  viewAllButtonIsVisible: false,
+  viewAllButtonIsVisible: true,
   maxVisibleItems: 9,
   shows: () => [],
 });
 
 defineEmits(["open-show-details", "view-all-shows-by-genre"]);
 
-const contentIsVisible = computed(() => {
-  return filteredShowsByGenre.value.length > 0;
-});
-
-const filteredShowsByGenre = computed(() => {
-  return props.shows.filter((show) => show.genres.includes(props.genreName));
-});
-
 const showsSortedByRating = computed(() => {
-  const sortedByRating = [...filteredShowsByGenre.value].sort((showA, showB) => {
+  const sortedByRating = [...props.shows].sort((showA, showB) => {
     return Number(showB.rating.average || 0) - Number(showA.rating.average || 0);
   });
 
@@ -63,6 +54,10 @@ const showsSortedByRating = computed(() => {
     return sortedByRating.slice(0, props.maxVisibleItems);
   }
   return sortedByRating;
+});
+
+const genreName = computed(() => {
+  return showGenres[props.genreType].name;
 });
 </script>
 

@@ -78,13 +78,14 @@ import EpisodesList from "@/components/EpisodesList.vue";
 import TabPanel from "@/components/TabPanel.vue";
 import TabView from "@/components/TabView.vue";
 import TagItem from "@/components/TagItem.vue";
-import { showDetailsTab, showGenresMap } from "@/utils/constants";
+import { showDetailsTab } from "@/utils/constants";
 import { fetchCastByShowId, fetchEpisodesByShowId, fetchShowById } from "@/stores/api";
 import { useQuery } from "@tanstack/vue-query";
 import { type Show, type ShowDetailsTabs } from "@/types";
 import { computed, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useFavoritesStore } from "@/stores/favorites";
+import { getGenreDetails } from "@/utils/helpers";
 
 const route = useRoute();
 const router = useRouter();
@@ -153,7 +154,7 @@ const favoriteToggleHandler = (show: Show) => {
 };
 
 const goToGenre = (genre: string) => {
-  const selectedGenre = showGenresMap.get(genre);
+  const selectedGenre = getGenreDetails(genre);
   if (selectedGenre) {
     router.push({
       path: `/genre/${selectedGenre.code}`,

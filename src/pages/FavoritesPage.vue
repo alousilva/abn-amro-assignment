@@ -22,9 +22,9 @@
           />
         </div>
       </div>
-      <div v-else>
-        <p>You don't have any favorites yet :.</p>
-        Put a sad face
+      <div v-else class="favorites-page__no-contents">
+        <p>You don't have any favorites yet</p>
+        <button class="action-button" @click="redirectToHome">Go home and check shows</button>
       </div>
     </main>
   </div>
@@ -46,6 +46,12 @@ const { resetFavorites } = store;
 const openShowHandler = (showId: Show["id"]) => {
   router.push({
     path: `/details/${showId}`,
+  });
+};
+
+const redirectToHome = () => {
+  router.push({
+    path: `/`,
   });
 };
 </script>
@@ -96,6 +102,16 @@ const openShowHandler = (showId: Show["id"]) => {
           grid-template-columns: repeat(5, 1fr);
         }
       }
+    }
+  }
+
+  &__no-contents {
+    display: flex;
+    flex-direction: column;
+    gap: 10px 0;
+
+    button {
+      max-width: 250px;
     }
   }
 

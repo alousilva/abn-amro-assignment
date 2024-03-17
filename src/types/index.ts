@@ -4,6 +4,7 @@ export type ShowGenres = {
   [key: string]: {
     name: string;
     description: string;
+    code: string;
   };
 };
 
@@ -18,7 +19,7 @@ export type Show = {
   runtime: number;
   averageRuntime: number;
   premiered: string;
-  ended: string;
+  ended: null | string;
   officialSite: null | string;
   schedule: {
     time: string;
@@ -38,7 +39,7 @@ export type Show = {
     };
     officialSite: null | string;
   };
-  webChannel: null | string;
+  webChannel: null | { id?: number; name?: string; country?: string | null; officialSite?: string };
   dvdCountry: null | string;
   externals: {
     tvrage: number;
@@ -52,7 +53,10 @@ export type Show = {
     self: {
       href: string;
     };
-    previousepisode: {
+    previousepisode?: {
+      href: string;
+    };
+    nextepisode?: {
       href: string;
     };
   };
@@ -141,13 +145,8 @@ export type EpisodesGroupedBySeason = {
   [season: number]: Episode[];
 };
 
-export type ShowGenresMap = Map<
-  string,
-  {
-    code: string;
-    name: string;
-    description: string;
-  }
->;
+export type GroupedShowsByGenre = {
+  [key: string]: Show[];
+};
 
 export type ColorSchemeKeys = keyof typeof colorScheme;

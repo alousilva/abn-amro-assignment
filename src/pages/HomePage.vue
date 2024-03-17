@@ -17,7 +17,7 @@
       <div v-if="noShowsFoundByKeyword">No shows found</div>
       <shows-grid
         v-else
-        :shows="showsGridData"
+        :groupedShowsByGenre="showsGridData"
         :view-all-button-is-visible="viewAllButtonIsVisible"
         @open-show-details="openShowHandler"
         @view-all-shows-by-genre="viewAllShowsByGenreHandler"
@@ -35,13 +35,13 @@ import type { Show } from "@/types";
 import { computed, ref, watch } from "vue";
 import { fetchShows, fetchShowsByKeyword } from "@/stores/api";
 import { useRouter } from "vue-router";
-import { debounce } from "@/utils/helpers";
+import { debounce, groupShowsByGenre } from "@/utils/helpers";
 
 const router = useRouter();
 const { toasterIsVisible, toasterMessage, showToaster } = useToaster();
 
-// The initial page load will always point to page 1 to get some data for the sake of the example
-const page = ref(1);
+// The initial page load will always point to page 0 to get some data for the sake of the example
+const page = ref(0);
 const searchKeyword = ref("");
 const debouncedSearchKeyword = ref("");
 
@@ -83,9 +83,9 @@ const { data: showsData } = useQuery({
 const showsGridData = computed(() => {
   if (debouncedSearchKeyword.value) {
     const parsedShows = showsByKeywordData.value?.map((show) => show.show);
-    return parsedShows;
+    return groupShowsByGenre(parsedShows);
   } else {
-    return showsData.value;
+    return groupShowsByGenre(showsData.value);
   }
 });
 

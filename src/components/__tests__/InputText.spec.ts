@@ -15,8 +15,6 @@ describe("InputText", () => {
 
   it("should not show the clear button when the input is empty", () => {
     const wrapper = mount(InputText);
-    // console.log(wrapper.html(), wrapper.props.modelValue);
-    console.log(wrapper.html());
     expect(wrapper.find("button").exists()).toBe(false);
   });
 

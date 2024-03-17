@@ -57,6 +57,7 @@ defineProps<{ castMember: CastMember }>();
 
   i {
     font-size: 200px;
+    height: 250px;
   }
 
   @media (min-width: 768px) {
@@ -66,6 +67,10 @@ defineProps<{ castMember: CastMember }>();
 
     img {
       max-width: 200px;
+      height: 300px;
+    }
+
+    i {
       height: 300px;
     }
   }
