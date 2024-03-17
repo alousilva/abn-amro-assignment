@@ -1,6 +1,5 @@
 <template>
   <div class="show-details-page">
-    <!-- wait for data to load. show skeleton -->
     <main v-if="showData" class="show-details-page__content">
       <div class="show-details-page__poster">
         <img v-if="showData.image?.medium" :src="showData.image.medium" />
@@ -48,10 +47,22 @@
 
         <tab-view @selected-header="selectedTabHeadeHandler">
           <tab-panel :header="showDetailsTab.episodes">
-            <episodes-list :episodes="episodesData" />
+            <div v-if="episodesData?.length === 0" class="show-details-page__warnings-container">
+              <span>There are no episodes to display</span>
+              <button class="action-button" @click="() => refetchEpisodesData()">
+                Try fetching episodes
+              </button>
+            </div>
+            <episodes-list v-else :episodes="episodesData" />
           </tab-panel>
           <tab-panel :header="showDetailsTab.cast">
-            <cast-list :cast-members="castData" />
+            <div v-if="castData?.length === 0" class="show-details-page__warnings-container">
+              <span>There are no cast members to display</span>
+              <button class="action-button" @click="() => refetchCastData()">
+                Try fetching cast info
+              </button>
+            </div>
+            <cast-list v-else :cast-members="castData" />
           </tab-panel>
         </tab-view>
       </div>
@@ -86,7 +97,7 @@ const selectedTabHeadeHandler = (currentTab: ShowDetailsTabs) => {
 };
 
 const selectedShow = ref<number>(Number(route.params.id));
-const { data: showData, error: showError } = useQuery({
+const { data: showData } = useQuery({
   queryKey: ["show", route.params.id],
   queryFn: () => {
     if (selectedShow.value) {
@@ -98,7 +109,7 @@ const { data: showData, error: showError } = useQuery({
   keepPreviousData: true,
 });
 
-const { data: episodesData, error: episodesError } = useQuery({
+const { data: episodesData, refetch: refetchEpisodesData } = useQuery({
   queryKey: ["episodes", selectedShow],
   queryFn: () => {
     if (currentDetailsTab.value === showDetailsTab.episodes) {
@@ -110,7 +121,7 @@ const { data: episodesData, error: episodesError } = useQuery({
   keepPreviousData: true,
 });
 
-const { data: castData, error: castError } = useQuery({
+const { data: castData, refetch: refetchCastData } = useQuery({
   queryKey: ["cast", currentDetailsTab],
   queryFn: () => {
     if (currentDetailsTab.value === showDetailsTab.cast) {
@@ -229,6 +240,13 @@ const runTime = computed(() => {
     a {
       height: 32px;
     }
+  }
+
+  &__warnings-container {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-small) var(--spacing-medium);
+    flex-wrap: wrap;
   }
 }
 </style>
