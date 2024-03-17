@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import { mount } from "@vue/test-utils";
-import FavoriteButton from "../FavoriteButton.vue";
+import FavoriteButton from "@/components/FavoriteButton.vue";
 
 describe("FavoriteButton", () => {
   it("should render 'Add to favorites' when checkbox is not checked", () => {

@@ -30,10 +30,9 @@
 import InputText from "@/components/InputText.vue";
 import ShowsGrid from "@/components/ShowsGrid.vue";
 import { useToaster } from "@/composables/userToaster";
-import { useQuery } from "@tanstack/vue-query";
 import type { Show } from "@/types";
 import { computed, ref, watch } from "vue";
-import { fetchShows, fetchShowsByKeyword } from "@/stores/api";
+import { queryShows, queryShowsByKeyword } from "@/stores/api";
 import { useRouter } from "vue-router";
 import { debounce, groupShowsByGenre } from "@/utils/helpers";
 
@@ -53,17 +52,7 @@ const {
   data: showsByKeywordData,
   error: showsByKeywordError,
   status: showsByKeywordStatus,
-} = useQuery({
-  queryKey: ["shows-by-keyword", debouncedSearchKeyword],
-  queryFn: () => {
-    if (!debouncedSearchKeyword.value) {
-      return [];
-    }
-    return fetchShowsByKeyword(debouncedSearchKeyword);
-  },
-  // @ts-ignore This field is not defined in the vue-query types
-  keepPreviousData: true,
-});
+} = queryShowsByKeyword(debouncedSearchKeyword, !debouncedSearchKeyword.value);
 
 const noShowsFoundByKeyword = computed(() => {
   return (
@@ -73,16 +62,13 @@ const noShowsFoundByKeyword = computed(() => {
   );
 });
 
-const { data: showsData } = useQuery({
-  queryKey: ["shows", page],
-  queryFn: () => fetchShows(page),
-  // @ts-ignore This field is not defined in the vue-query types
-  keepPreviousData: true,
-});
+const { data: showsData } = queryShows(page);
 
 const showsGridData = computed(() => {
   if (debouncedSearchKeyword.value) {
     const parsedShows = showsByKeywordData.value?.map((show) => show.show);
+    console.log({ parsedShows });
+
     return groupShowsByGenre(parsedShows);
   } else {
     return groupShowsByGenre(showsData.value);

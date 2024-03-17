@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import type { Show } from "@/types";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 export const useFavoritesStore = defineStore("favorites", () => {
   const findShowIndexById = (showId: Show["id"]) => {
@@ -10,8 +10,7 @@ export const useFavoritesStore = defineStore("favorites", () => {
   const loadDataFromLocalStorage = (): Show[] => {
     const localStorageData = localStorage.getItem("tv-maze-shows");
     if (localStorageData) {
-      const { shows } = JSON.parse(localStorageData);
-      return shows;
+      return JSON.parse(localStorageData);
     }
     return [];
   };
@@ -37,6 +36,11 @@ export const useFavoritesStore = defineStore("favorites", () => {
     shows.value = [];
   };
 
+  watch(shows.value, (newValue) => {
+    // Persist the state in the localStorage
+    localStorage.setItem("tv-maze-shows", JSON.stringify(newValue));
+  });
+
   return {
     shows,
     addShowToFavorites,
@@ -44,10 +48,4 @@ export const useFavoritesStore = defineStore("favorites", () => {
     isShowInFavorites,
     resetFavorites,
   };
-});
-
-const store = useFavoritesStore();
-store.$subscribe((_, state) => {
-  // Persist the state in the localStorage
-  localStorage.setItem("tv-maze-shows", JSON.stringify(state));
 });

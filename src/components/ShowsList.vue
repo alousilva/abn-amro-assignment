@@ -27,6 +27,7 @@
 import ShowItem from "@/components/ShowItem.vue";
 import type { Show } from "@/types";
 import { showGenres } from "@/utils/constants";
+import { sortedShowsByRating } from "@/utils/helpers";
 import { computed } from "vue";
 
 type Props = {
@@ -46,9 +47,7 @@ const props = withDefaults(defineProps<Props>(), {
 defineEmits(["open-show-details", "view-all-shows-by-genre"]);
 
 const showsSortedByRating = computed(() => {
-  const sortedByRating = [...props.shows].sort((showA, showB) => {
-    return Number(showB.rating.average || 0) - Number(showA.rating.average || 0);
-  });
+  const sortedByRating = sortedShowsByRating(props.shows);
 
   if (props.viewAllButtonIsVisible) {
     return sortedByRating.slice(0, props.maxVisibleItems);

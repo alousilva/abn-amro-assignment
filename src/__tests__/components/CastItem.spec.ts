@@ -1,8 +1,8 @@
 import { describe, it, expect } from "vitest";
 
 import { mount } from "@vue/test-utils";
-import CastItem from "../CastItem.vue";
-import { castMemberWithInValidImageLinks, castMemberWithValidImageLinks } from "./mocks/data";
+import CastItem from "@/components/CastItem.vue";
+import { castMemberWithInValidImageLinks, castMemberWithValidImageLinks } from "../mocks/data";
 
 describe("CastItem", () => {
   describe("With valid image links", () => {

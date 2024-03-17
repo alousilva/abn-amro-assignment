@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import { mount } from "@vue/test-utils";
-import TabPanel from "../TabPanel.vue";
+import TabPanel from "@/components/TabPanel.vue";
 
 describe("TabPanel", () => {
   it("should make the root element visible when the header and the selectedHeader are the same", () => {

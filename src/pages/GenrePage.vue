@@ -33,10 +33,9 @@
 
 <script setup lang="ts">
 import ShowItem from "@/components/ShowItem.vue";
-import { fetchShows } from "@/stores/api";
+import { queryShows } from "@/stores/api";
 import type { Show } from "@/types";
 import { showGenres } from "@/utils/constants";
-import { useQuery } from "@tanstack/vue-query";
 import { computed, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
@@ -53,29 +52,11 @@ const selectedGenreIsValid = computed(() => {
 
 const loadedShows = ref<Show[]>([]);
 const page = ref(1);
-const { data } = useQuery({
-  queryKey: ["shows", page],
-  queryFn: () => {
-    if (!genreName.value) {
-      return [];
-    }
-    return fetchShows(page);
-  },
-  // @ts-ignore This field is not defined in the vue-query types
-  keepPreviousData: true,
-});
+const { data } = queryShows(page);
 
 const filteredShowsByGenre = computed(() => {
   return loadedShows.value?.filter((show) => show.genres.includes(genreName.value)) || [];
 });
-
-// const showsSortedByRating = computed(() => {
-//   const sortedByRating = [...filteredShowsByGenre.value].sort((showA, showB) => {
-//     return Number(showB.rating.average || 0) - Number(showA.rating.average || 0);
-//   });
-
-//   return sortedByRating;
-// });
 
 const loadMoreShows = () => {
   page.value += 1;

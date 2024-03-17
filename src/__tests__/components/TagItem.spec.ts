@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import { mount } from "@vue/test-utils";
-import TagItem from "../TagItem.vue";
+import TagItem from "@/components/TagItem.vue";
 
 describe("TagItem", () => {
   it("should render with the given text", () => {

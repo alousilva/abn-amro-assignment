@@ -55,3 +55,9 @@ export const groupEpisodesBySeason = (episodes: Episode[]) => {
     return acc;
   }, {});
 };
+
+export const sortedShowsByRating = (shows: Show[]) => {
+  return [...shows].sort((showA, showB) => {
+    return Number(showB.rating.average || 0) - Number(showA.rating.average || 0);
+  });
+};

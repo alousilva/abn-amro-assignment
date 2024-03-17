@@ -39,7 +39,7 @@
 
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
-import { useThemeStore } from "@/stores/userSettings";
+import { useThemeStore } from "@/stores/theme";
 import { storeToRefs } from "pinia";
 
 const store = useThemeStore();

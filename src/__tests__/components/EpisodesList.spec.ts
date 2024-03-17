@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
 
 import { shallowMount } from "@vue/test-utils";
-import EpisodesList from "../EpisodesList.vue";
-import EpisodeItem from "../EpisodeItem.vue";
-import { listOfEpisodes } from "./mocks/data";
+import EpisodesList from "@/components/EpisodesList.vue";
+import EpisodeItem from "@/components/EpisodeItem.vue";
+import { listOfEpisodes } from "../mocks/data";
 import { groupEpisodesBySeason } from "@/utils/helpers";
 
 describe("EpisodesList", () => {

@@ -13,5 +13,6 @@
   ],
   "compilerOptions": {
     "module": "NodeNext"
-  }
+  },
+  "exclude": ["src/stores/api/index.ts"]
 }

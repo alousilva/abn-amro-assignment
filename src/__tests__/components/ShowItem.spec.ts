@@ -1,8 +1,8 @@
 import { describe, it, expect } from "vitest";
 
 import { mount } from "@vue/test-utils";
-import ShowItem from "../ShowItem.vue";
-import { showWithInValidImageLinks, showWithValidImageLinks } from "./mocks/data";
+import ShowItem from "@/components/ShowItem.vue";
+import { showWithInValidImageLinks, showWithValidImageLinks } from "../mocks/data";
 
 describe("ShowItem", () => {
   describe("With valid image links", () => {

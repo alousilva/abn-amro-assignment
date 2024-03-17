@@ -18,10 +18,10 @@
         <span class="episode-item__rating"
           ><strong>Rating:</strong> {{ episode.rating.average ?? "?" }} / 10</span
         >
-        <div class="episode-item__summary-top" v-html="episode.summary"></div>
+        <div class="episode-item__summary-top" v-html="episode.summary || ''"></div>
       </div>
     </div>
-    <div class="episode-item__summary-bottom" v-html="episode.summary"></div>
+    <div class="episode-item__summary-bottom" v-html="episode.summary || ''"></div>
   </div>
 </template>
 

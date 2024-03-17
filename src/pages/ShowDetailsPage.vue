@@ -13,7 +13,7 @@
           <span>{{ showAiringDates }}</span>
         </div>
         <div class="show-details-page__container-middle">
-          <div class="show-details-page__summary" v-html="showData?.summary"></div>
+          <div class="show-details-page__summary" v-html="showData?.summary || ''"></div>
           <div class="show-details-page__genres">
             <tag-item
               v-for="genre in showData.genres"
@@ -79,8 +79,7 @@ import TabPanel from "@/components/TabPanel.vue";
 import TabView from "@/components/TabView.vue";
 import TagItem from "@/components/TagItem.vue";
 import { showDetailsTab } from "@/utils/constants";
-import { fetchCastByShowId, fetchEpisodesByShowId, fetchShowById } from "@/stores/api";
-import { useQuery } from "@tanstack/vue-query";
+import { queryCastByShowId, queryEpisodesByShowId, queryShowsById } from "@/stores/api";
 import { type Show, type ShowDetailsTabs } from "@/types";
 import { computed, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -98,41 +97,26 @@ const selectedTabHeadeHandler = (currentTab: ShowDetailsTabs) => {
 };
 
 const selectedShow = ref<number>(Number(route.params.id));
-const { data: showData } = useQuery({
-  queryKey: ["show", route.params.id],
-  queryFn: () => {
-    if (selectedShow.value) {
-      return fetchShowById(selectedShow);
-    }
-    return null;
-  },
-  // @ts-ignore This field is not defined in the vue-query types
-  keepPreviousData: true,
+const { data: showData } = queryShowsById(route.params.id as string, selectedShow);
+
+const isCurrentTabEpisodes = computed(() => {
+  return currentDetailsTab.value === showDetailsTab.episodes;
 });
 
-const { data: episodesData, refetch: refetchEpisodesData } = useQuery({
-  queryKey: ["episodes", selectedShow],
-  queryFn: () => {
-    if (currentDetailsTab.value === showDetailsTab.episodes) {
-      return fetchEpisodesByShowId(selectedShow);
-    }
-    return [];
-  },
-  // @ts-ignore This field is not defined in the vue-query types
-  keepPreviousData: true,
+const { data: episodesData, refetch: refetchEpisodesData } = queryEpisodesByShowId(
+  selectedShow,
+  isCurrentTabEpisodes,
+);
+
+const isCurrentTabCast = computed(() => {
+  return currentDetailsTab.value === showDetailsTab.cast;
 });
 
-const { data: castData, refetch: refetchCastData } = useQuery({
-  queryKey: ["cast", currentDetailsTab],
-  queryFn: () => {
-    if (currentDetailsTab.value === showDetailsTab.cast) {
-      return fetchCastByShowId(selectedShow);
-    }
-    return [];
-  },
-  // @ts-ignore This field is not defined in the vue-query types
-  keepPreviousData: true,
-});
+const { data: castData, refetch: refetchCastData } = queryCastByShowId(
+  currentDetailsTab,
+  isCurrentTabCast,
+  selectedShow,
+);
 
 const showIsFavorited = ref(false);
 watch(

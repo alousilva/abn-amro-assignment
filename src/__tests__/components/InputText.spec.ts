@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import { mount } from "@vue/test-utils";
-import InputText from "../InputText.vue";
+import InputText from "@/components/InputText.vue";
 
 describe("InputText", () => {
   it("should update input", async () => {

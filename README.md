@@ -36,7 +36,13 @@ const genres = {
 ```
 
 TODO:
-code optimizations  
+  Testar
+  - genre page
+  - show details page
+  - home page
+
+Documentacao
+Design miro
 
 Features:
 
@@ -51,25 +57,6 @@ Features:
 - [X] Dark / light mode
 - [X] add nice horizontal scroll bars to the shows list
 - [X] add styles for bigger screens
-
-- [X] CastItem
-- [X] CastList
-- [X] EpisodeItem
-- [X] EpisodesList
-- [X] FavoriteButton
-- [X] InputText
-- [X] ShowItem
-- [ ] ShowsGrid
-- [ ] ShowsList
-- [X] TabPanel
-- [ ] TabView
-- [X] TagItem
-- [ ] ToasterPopup
-- [ ] FavoritesPage
-- [ ] GenrePage
-- [ ] HomePage
-- [ ] NotFoundPage
-- [ ] ShowDetailsPage
 
 ## Project Setup
 
@@ -120,6 +107,7 @@ npm run lint
 ### Future features
 
 - Virtualization
+- Add sorting filters
 - Use the toaster component across the app
 - Enhance the search functionality:
   - Single search with embed episodes

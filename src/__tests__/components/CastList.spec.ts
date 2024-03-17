@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
 
 import { shallowMount } from "@vue/test-utils";
-import CastList from "../CastList.vue";
-import CastItem from "../CastItem.vue";
-import { castMemberWithValidImageLinks } from "./mocks/data";
+import CastList from "@/components/CastList.vue";
+import CastItem from "@/components/CastItem.vue";
+import { castMemberWithValidImageLinks } from "../mocks/data";
 
 describe("CastList", () => {
   it("should render all the provided cast items", () => {

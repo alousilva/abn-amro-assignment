@@ -16,9 +16,9 @@ export type Show = {
   language: string;
   genres: string[];
   status: string;
-  runtime: number;
-  averageRuntime: number;
-  premiered: string;
+  runtime: null | number;
+  averageRuntime: null | number;
+  premiered: null | string;
   ended: null | string;
   officialSite: null | string;
   schedule: {
@@ -26,10 +26,10 @@ export type Show = {
     days: string[];
   };
   rating: {
-    average: number;
+    average: null | number;
   };
   weight: number;
-  network: {
+  network: null | {
     id: number;
     name: string;
     country: {
@@ -42,12 +42,12 @@ export type Show = {
   webChannel: null | { id?: number; name?: string; country?: string | null; officialSite?: string };
   dvdCountry: null | string;
   externals: {
-    tvrage: number;
-    thetvdb: number;
+    tvrage: null | number;
+    thetvdb: null | number;
     imdb: string;
   };
   image: Image | null;
-  summary: string;
+  summary: null | string;
   updated: number;
   _links: {
     self: {
