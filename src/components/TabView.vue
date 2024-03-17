@@ -26,9 +26,10 @@
 import { provide, ref, useSlots, watch } from "vue";
 
 const slots = useSlots();
-const slotItems = slots.default() || [];
-const tabHeaders = ref(slotItems.map((tab) => tab.props?.header));
-const selectedHeader = ref<string>(tabHeaders.value[0]);
+// It was not enough to use optional chaining slots?.default(). TS will still complain
+const slotItems = (slots as any)?.default() || [];
+const tabHeaders = ref(slotItems.map((tab: any) => tab.props?.header));
+const selectedHeader = ref<string>(tabHeaders.value[0] || "");
 
 provide("selectedHeader", selectedHeader);
 

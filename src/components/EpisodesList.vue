@@ -10,7 +10,7 @@
           Season {{ season }}
         </option>
       </select>
-      <span>{{ episodesOfSelectedSeason?.length }} episodes</span>
+      <span>{{ episodesOfSelectedSeason.length }} episodes</span>
     </div>
     <div class="episodes-list__season">
       <div class="episodes-list__season-contents">
@@ -25,7 +25,8 @@
 </template>
 <script setup lang="ts">
 import EpisodeItem from "@/components/EpisodeItem.vue";
-import type { Episode, EpisodesGroupedBySeason } from "@/types";
+import type { Episode } from "@/types";
+import { groupEpisodesBySeason } from "@/utils/helpers";
 import { computed, ref, watch } from "vue";
 
 const props = withDefaults(defineProps<{ episodes: Episode[] }>(), {
@@ -37,24 +38,18 @@ const selectedSeason = ref<number>(1);
 watch(
   () => props.episodes,
   () => {
+    // Set the selectedSeason with the season value of the first episode
     selectedSeason.value = props.episodes[0]?.season || 1;
   },
   { immediate: true },
 );
 
 const episodesGroupedBySeason = computed(() => {
-  return props.episodes.reduce((acc: EpisodesGroupedBySeason, episode) => {
-    const season = episode.season;
-    if (!acc[season]) {
-      acc[season] = [];
-    }
-    acc[season].push(episode);
-    return acc;
-  }, {});
+  return groupEpisodesBySeason(props.episodes);
 });
 
 const episodesOfSelectedSeason = computed(() => {
-  return episodesGroupedBySeason.value[selectedSeason.value];
+  return episodesGroupedBySeason.value[selectedSeason.value] || [];
 });
 </script>
 

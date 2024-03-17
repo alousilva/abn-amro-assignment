@@ -19,7 +19,7 @@ export type Show = {
   averageRuntime: number;
   premiered: string;
   ended: string;
-  officialSite: string;
+  officialSite: null | string;
   schedule: {
     time: string;
     days: string[];
@@ -36,7 +36,7 @@ export type Show = {
       code: string;
       timezone: string;
     };
-    officialSite: string;
+    officialSite: null | string;
   };
   webChannel: null | string;
   dvdCountry: null | string;
@@ -45,10 +45,7 @@ export type Show = {
     thetvdb: number;
     imdb: string;
   };
-  image: {
-    medium: string;
-    original: string;
-  };
+  image: Image | null;
   summary: string;
   updated: number;
   _links: {
@@ -58,6 +55,23 @@ export type Show = {
     previousepisode: {
       href: string;
     };
+  };
+};
+
+export type Country = {
+  name: string;
+  code: string;
+  timezone: string;
+};
+
+export type Image = {
+  medium?: string;
+  original?: string;
+};
+
+export type Links = {
+  self: {
+    href: string;
   };
 };
 
@@ -75,10 +89,7 @@ export type Episode = {
   rating: {
     average: number;
   };
-  image: {
-    medium: string;
-    original: string;
-  };
+  image: Image | null;
   summary: string;
   _links: {
     self: {
@@ -93,23 +104,6 @@ export type Episode = {
 export type SearchedShow = {
   score: number;
   show: Show;
-};
-
-export type Country = {
-  name: string;
-  code: string;
-  timezone: string;
-};
-
-export type Image = {
-  medium: string;
-  original: string;
-};
-
-export type Links = {
-  self: {
-    href: string;
-  };
 };
 
 export type Person = {

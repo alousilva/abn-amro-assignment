@@ -10,6 +10,7 @@
         id="search-input"
         aria-label="Search shows"
         placeholder="Search shows"
+        @update:modelValue="debouncedUpdateModelValue"
       />
     </header>
     <main>
@@ -34,6 +35,7 @@ import type { Show } from "@/types";
 import { computed, ref, watch } from "vue";
 import { fetchShows, fetchShowsByKeyword } from "@/stores/api";
 import { useRouter } from "vue-router";
+import { debounce } from "@/utils/helpers";
 
 const router = useRouter();
 const { toasterIsVisible, toasterMessage, showToaster } = useToaster();
@@ -41,18 +43,23 @@ const { toasterIsVisible, toasterMessage, showToaster } = useToaster();
 // The initial page load will always point to page 1 to get some data for the sake of the example
 const page = ref(1);
 const searchKeyword = ref("");
+const debouncedSearchKeyword = ref("");
+
+const debouncedUpdateModelValue = debounce((newValue: string) => {
+  debouncedSearchKeyword.value = newValue;
+});
 
 const {
   data: showsByKeywordData,
   error: showsByKeywordError,
   status: showsByKeywordStatus,
 } = useQuery({
-  queryKey: ["shows-by-keyword", searchKeyword],
+  queryKey: ["shows-by-keyword", debouncedSearchKeyword],
   queryFn: () => {
-    if (!searchKeyword.value) {
+    if (!debouncedSearchKeyword.value) {
       return [];
     }
-    return fetchShowsByKeyword(searchKeyword);
+    return fetchShowsByKeyword(debouncedSearchKeyword);
   },
   // @ts-ignore This field is not defined in the vue-query types
   keepPreviousData: true,
@@ -60,7 +67,7 @@ const {
 
 const noShowsFoundByKeyword = computed(() => {
   return (
-    searchKeyword.value &&
+    debouncedSearchKeyword.value &&
     showsByKeywordStatus.value === "success" &&
     showsByKeywordData.value?.length === 0
   );
@@ -74,7 +81,7 @@ const { data: showsData } = useQuery({
 });
 
 const showsGridData = computed(() => {
-  if (searchKeyword.value) {
+  if (debouncedSearchKeyword.value) {
     const parsedShows = showsByKeywordData.value?.map((show) => show.show);
     return parsedShows;
   } else {
@@ -83,7 +90,7 @@ const showsGridData = computed(() => {
 });
 
 const viewAllButtonIsVisible = computed(() => {
-  return !searchKeyword.value;
+  return !debouncedSearchKeyword.value;
 });
 
 const openShowHandler = (showId: Show["id"]) => {

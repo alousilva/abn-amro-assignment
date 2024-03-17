@@ -1,9 +1,9 @@
 <template>
-  <span class="tag-item">{{ props.text }}</span>
+  <span class="tag-item">{{ text }}</span>
 </template>
 
 <script setup lang="ts">
-const props = withDefaults(defineProps<{ text: string }>(), {
+withDefaults(defineProps<{ text: string }>(), {
   text: "",
 });
 </script>

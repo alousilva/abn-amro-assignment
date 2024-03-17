@@ -19,7 +19,21 @@ Or for multiple genres (comma separated values):
 https://api.tvmaze.com/shows?genre=action,sci-fi,mystery
 ```
 
-So to circumvent this problem I extracted the list of genres from https://www.tvmaze.com/faq/32/genre-definitions and stored them in an array of objects
+So to circumvent this problem I extracted the list of genres from https://www.tvmaze.com/faq/32/genre-definitions and stored them in a ShowGenres object:
+
+```js
+const genres = {
+  history: {
+    name: "History",
+    description: "Series is either about an historical event or has an historical setting.",
+  },
+  horror: {
+    name: "Horror",
+    description: "Series with a high level of scary events or shocking content.",
+  },
+  // etc...
+}
+```
 
 TODO:
 code optimizations  
@@ -39,37 +53,24 @@ Features:
 - [X] add nice horizontal scroll bars to the shows list
 - [X] add styles for bigger screens
 
-breakpoints
-
-<576px
-<992px
-
-```js
-const genres = [
-  {
-    name: 'Action',
-    description: 'Series with high energy and plenty of physical stunts/activities.'
-  },
-  {
-    name: 'Adult',
-    description:
-      'Series with a high level of sexuality, and/or violence and is only meant for aged 18+ viewers.'
-  }
-  // etc...
-]
-```
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+- [X] CastItem
+- [X] CastList
+- [X] EpisodeItem
+- [X] EpisodesList
+- [X] FavoriteButton
+- [X] InputText
+- [X] ShowItem
+- [ ] ShowsGrid
+- [ ] ShowsList
+- [X] TabPanel
+- [ ] TabView
+- [X] TagItem
+- [ ] ToasterPopup
+- [ ] FavoritesPage
+- [ ] GenrePage
+- [ ] HomePage
+- [ ] NotFoundPage
+- [ ] ShowDetailsPage
 
 ## Project Setup
 

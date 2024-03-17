@@ -2,16 +2,21 @@
   <div
     class="show-item"
     tabindex="0"
-    :aria-label="props.show?.name"
-    @click="$emit('open-show-details', props.show?.id)"
-    @keydown.enter="$emit('open-show-details', props.show?.id)"
+    :aria-label="show.name"
+    @click="$emit('open-show-details', show.id)"
+    @keydown.enter="$emit('open-show-details', show.id)"
   >
     <v-lazy-image
-      v-if="props.show?.image?.medium"
-      :src="props.show.image.medium"
-      :alt="`image for ${props.show?.name}`"
+      v-if="show.image?.medium"
+      class="show-item__image"
+      :src="show.image.medium"
+      :alt="`image for ${show.name}`"
     />
-    <i v-else class="fa fa-file-image-o" aria-hidden="true"></i>
+    <i
+      v-else
+      class="fa fa-file-image-o show-item__image"
+      :title="`image not found for ${show.name}`"
+    ></i>
   </div>
 </template>
 
@@ -19,9 +24,7 @@
 import VLazyImage from "v-lazy-image";
 import type { Show } from "@/types";
 
-const props = withDefaults(defineProps<{ show: Show | null }>(), {
-  show: null,
-});
+defineProps<{ show: Show }>();
 
 defineEmits(["open-show-details"]);
 </script>

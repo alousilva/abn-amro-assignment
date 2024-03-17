@@ -77,6 +77,7 @@ const openShowHandler = (showId: Show["id"]) => {
       grid-gap: var(--spacing-normal) var(--spacing-small);
       justify-items: center;
       align-items: center;
+      padding-top: var(--spacing-normal);
 
       @media (min-width: 768px) {
         & {

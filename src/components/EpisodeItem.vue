@@ -1,30 +1,27 @@
 <template>
-  <div
-    class="episode-item"
-    tabindex="0"
-    @click="$emit('open-show-details', episode.id)"
-    @keydown.enter="$emit('open-show-details', episode.id)"
-  >
+  <div class="episode-item" tabindex="0">
     <div class="episode-item__top-container">
-      <div class="episode-item__image">
+      <div class="episode-item__image-container">
         <v-lazy-image
-          v-if="episode.image"
+          v-if="episode.image?.medium"
+          class="episode-item__image"
           :src="episode.image.medium || ''"
           :alt="`image for ${episode.name}`"
         />
-        <i v-else class="fa fa-file-image-o" aria-hidden="true"></i>
+        <i v-else class="fa fa-file-image-o" :title="`image not found for ${episode.name}`"></i>
       </div>
       <div class="episode-item__details">
-        <span
+        <span class="episode-item__number"
           ><strong>Episode {{ episode.number }}:</strong> {{ episode.name }}</span
         >
-        <span><strong>Air date:</strong> {{ episode.airdate }}</span>
-        <span><strong>Rating:</strong> {{ episode.rating.average ?? "?" }} / 10</span>
+        <span class="episode-item__air-date"><strong>Air date:</strong> {{ episode.airdate }}</span>
+        <span class="episode-item__rating"
+          ><strong>Rating:</strong> {{ episode.rating.average ?? "?" }} / 10</span
+        >
         <div class="episode-item__summary-top" v-html="episode.summary"></div>
       </div>
     </div>
     <div class="episode-item__summary-bottom" v-html="episode.summary"></div>
-    <!-- <span class="episode-item__name">{{ props.show?.name }}</span> -->
   </div>
 </template>
 
@@ -33,7 +30,6 @@ import VLazyImage from "v-lazy-image";
 import type { Episode } from "@/types";
 
 defineProps<{ episode: Episode }>();
-defineEmits(["open-show-details"]);
 </script>
 
 <style lang="scss" scoped>
@@ -49,7 +45,12 @@ defineEmits(["open-show-details"]);
     gap: 0 20px;
   }
 
-  &__image {
+  &__image-container {
+    img {
+      border-radius: var(--border-radius);
+      max-width: 100%;
+      height: auto;
+    }
     i {
       font-size: 100px;
     }
@@ -63,12 +64,6 @@ defineEmits(["open-show-details"]);
     width: 250px;
   }
 
-  img {
-    border-radius: var(--border-radius);
-    max-width: 100%;
-    height: auto;
-  }
-
   &__summary-top {
     display: none;
   }
@@ -76,6 +71,7 @@ defineEmits(["open-show-details"]);
   @media (min-width: 768px) {
     &__details {
       width: 100%;
+      font-size: var(--font-size-3);
     }
 
     img {
@@ -85,6 +81,7 @@ defineEmits(["open-show-details"]);
     }
 
     &__summary-top {
+      padding-top: var(--spacing-small);
       display: block;
     }
 

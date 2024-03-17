@@ -1,14 +1,11 @@
 <template>
   <div class="input-text">
-    <input v-bind="$attrs" :value="props.modelValue" @input="debouncedInputChange" />
+    <input v-bind="$attrs" v-model="modelValue" />
     <button
-      class="clear-input-button"
-      :style="{
-        display: props.modelValue ? 'block' : 'none',
-      }"
+      v-if="modelValue?.length"
       aria-label="Clear input"
       title="Clear input"
-      @click="debouncedInputChange"
+      @click="clearInputHandler"
     >
       <i class="fa fa-times"></i>
     </button>
@@ -16,20 +13,11 @@
 </template>
 
 <script setup lang="ts">
-import { debounce } from "@/utils/helpers";
+const modelValue = defineModel<string>();
 
-const props = withDefaults(defineProps<{ modelValue: string; debounceDelay?: number }>(), {
-  modelValue: "",
-  debounceDelay: 0,
-});
-
-const emits = defineEmits(["update:model-value"]);
-
-const handleInputChange = (data: Event) => {
-  emits("update:model-value", data.target?.value || "");
+const clearInputHandler = () => {
+  modelValue.value = "";
 };
-
-const debouncedInputChange = debounce(handleInputChange, props.debounceDelay);
 </script>
 
 <style lang="scss" scoped>
@@ -48,13 +36,12 @@ const debouncedInputChange = debounce(handleInputChange, props.debounceDelay);
     border: var(--input-border);
     border-radius: var(--border-radius);
     transition: 0.2s;
-    // height: var(--sizing-input-default);
     appearance: none;
     width: inherit;
     font-size: var(--font-size-4);
   }
 
-  .clear-input-button {
+  button {
     position: absolute;
     right: var(--spacing-medium);
     top: var(--spacing-xlarge);
@@ -71,10 +58,10 @@ const debouncedInputChange = debounce(handleInputChange, props.debounceDelay);
     color: white;
     font-size: 16px;
     cursor: pointer;
-  }
 
-  .clear-input-button:hover {
-    background: darkgray;
+    &:hover {
+      background: darkgray;
+    }
   }
 }
 </style>
