@@ -5,23 +5,21 @@ import type { ComputedRef, Ref } from "vue";
 // add a .env file with the base url
 const baseEndpoint = "https://api.tvmaze.com/";
 
-export const fetchShowsByKeyword = async (
-  searchKeyword: Ref<string | null>,
-): Promise<SearchedShow[]> =>
+const fetchShowsByKeyword = async (searchKeyword: Ref<string | null>): Promise<SearchedShow[]> =>
   await fetch(`${baseEndpoint}search/shows?q=${searchKeyword.value}`).then((response) =>
     response.json(),
   );
 
-export const fetchShows = async (page: Ref<number>): Promise<Show[]> =>
+const fetchShows = async (page: Ref<number>): Promise<Show[]> =>
   await fetch(`${baseEndpoint}shows?page=${page.value}`).then((response) => response.json());
 
-export const fetchShowById = async (showId: Ref<number | null>): Promise<Show> =>
+const fetchShowById = async (showId: Ref<number | null>): Promise<Show> =>
   await fetch(`${baseEndpoint}shows/${showId.value}`).then((response) => response.json());
 
-export const fetchEpisodesByShowId = async (showId: Ref<number | null>): Promise<Episode[]> =>
+const fetchEpisodesByShowId = async (showId: Ref<number | null>): Promise<Episode[]> =>
   await fetch(`${baseEndpoint}shows/${showId.value}/episodes`).then((response) => response.json());
 
-export const fetchCastByShowId = async (showId: Ref<number | null>): Promise<CastMember[]> =>
+const fetchCastByShowId = async (showId: Ref<number | null>): Promise<CastMember[]> =>
   await fetch(`${baseEndpoint}shows/${showId.value}/cast`).then((response) => response.json());
 
 // This needs proper typing inference

@@ -5,7 +5,6 @@ import { createTestingPinia } from "@pinia/testing";
 import FavoritesPage from "@/pages/FavoritesPage.vue";
 import ShowItem from "@/components/ShowItem.vue";
 import { shows } from "../mocks/data";
-import { useFavoritesStore } from "@/stores/favorites";
 
 const routerPushMock = vi.fn();
 
