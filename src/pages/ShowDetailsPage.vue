@@ -8,9 +8,9 @@
       <h2 class="show-details-page__title">{{ showData.name }}</h2>
       <div class="show-details-page__container">
         <div class="show-details-page__container-top">
-          <div>{{ runTime }} min</div>
-          <div>{{ showData.language }}</div>
-          <div>{{ showAiringDates }}</div>
+          <span>{{ runTime }} min</span>
+          <span>{{ showData.language }}</span>
+          <span>{{ showAiringDates }}</span>
         </div>
         <div class="show-details-page__container-middle">
           <div class="show-details-page__summary" v-html="showData?.summary"></div>
@@ -205,6 +205,11 @@ const runTime = computed(() => {
     flex-wrap: wrap;
     gap: var(--spacing-none) var(--spacing-normal);
     font-size: var(--font-size-2);
+
+    span {
+      text-align: left;
+      min-width: 50px;
+    }
   }
 
   &__container-middle {

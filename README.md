@@ -22,14 +22,7 @@ https://api.tvmaze.com/shows?genre=action,sci-fi,mystery
 So to circumvent this problem I extracted the list of genres from https://www.tvmaze.com/faq/32/genre-definitions and stored them in an array of objects
 
 TODO:
-code optimizations
-handle errors
-- no cast
-- no episodes
-- no shows
-  
-remove inactive queries, maybe
-improve CSS
+code optimizations  
 unit tests
 
 Features:
