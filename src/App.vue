@@ -1,23 +1,30 @@
 <template>
   <div class="wrapper">
     <nav class="wrapper__navigation">
-      <div>TvMaze</div>
+      <div><strong>TvMaze</strong></div>
       <div class="wrapper__navigation-links">
         <RouterLink to="/">
           <div class="wrapper__navigation-links-item">
-            <img :src="IconHome" alt="Home icon" />
+            <i class="fa fa-home"></i>
             <span>Home</span>
           </div>
         </RouterLink>
         <RouterLink to="/favorites">
           <div class="wrapper__navigation-links-item">
-            <img :src="IconFavorite" alt="Favorites icon" />
+            <i class="fa fa-star"></i>
             <span>Favorites</span>
           </div>
         </RouterLink>
       </div>
-      <div class="theme">
-        <button @click="toggleDarkMode">theme</button>
+      <div class="wrapper__theme">
+        <button
+          @click="toggleDarkMode"
+          aria-label="Toggle dark/light theme"
+          class="wrapper__theme-button"
+        >
+          <i v-if="theme === 'light'" class="fa fa-moon-o" aria-hidden="true"></i>
+          <i v-else class="fa fa-sun-o" aria-hidden="true"></i>
+        </button>
       </div>
     </nav>
     <div class="wrapper__content">
@@ -31,44 +38,45 @@
 </template>
 
 <script setup lang="ts">
-import IconHome from "@/assets/icon-home.svg?url";
-import IconFavorite from "@/assets/icon-favorite.svg?url";
-
 import { RouterLink, RouterView } from "vue-router";
 import { useThemeStore } from "@/stores/userSettings";
+import { storeToRefs } from "pinia";
 
 const store = useThemeStore();
 const { toggleDarkMode } = store;
+const { theme } = storeToRefs(store);
 </script>
 
 <style lang="scss" scoped>
 .wrapper {
-  // max-width: 1280px;
-
   &__navigation {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: rgb(203, 247, 232);
+    background-color: var(--color-background-mute);
     width: 100%;
-    font-size: 12px;
     height: 4rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     z-index: 100;
-    max-width: 500px;
+    padding: var(--spacing-large);
 
     &-links {
-      width: 250px;
       height: 40px;
       display: flex;
       align-items: center;
+      gap: var(--spacing-none) var(--spacing-large);
 
       &-item {
         display: flex;
-        width: 100px;
         align-items: center;
+        padding: 6px;
+        gap: var(--spacing-none) var(--spacing-medium);
+
+        i {
+          font-size: 36px;
+        }
 
         span {
           display: none;
@@ -76,12 +84,16 @@ const { toggleDarkMode } = store;
       }
     }
 
-    // background-color: rgb(194, 245, 245);
-
     a {
       display: inline-block;
-      padding: 0 1rem;
-      // border-left: 1px solid var(--color-border);
+      text-decoration: none;
+      color: var(--bg-color-button);
+      transition: 0.4s;
+
+      &:hover {
+        background-color: hsla(160, 100%, 37%, 0.2);
+        border-radius: 4px;
+      }
 
       &:first-of-type {
         border: 0;
@@ -89,7 +101,6 @@ const { toggleDarkMode } = store;
 
       &.router-link-exact-active {
         color: var(--color-text);
-        // border-bottom: 2px solid green;
       }
 
       &.router-link-exact-active:hover {
@@ -98,19 +109,26 @@ const { toggleDarkMode } = store;
     }
   }
 
-  &__content {
-    margin-top: 5rem;
+  &__theme-button {
+    width: 40px;
+    height: 40px;
+    text-decoration: none;
+    border: none;
+    transition: background-color 0.3s;
+    color: var(--color-text);
+    background-color: var(--color-background-soft);
 
-    // :deep(.home-page) {
-    //   max-width: 767px;
-    //   margin-inline: auto;
-    // }
+    i {
+      font-size: 24px;
+    }
   }
 
-  // Tablet
+  &__content {
+    margin-top: 4rem;
+  }
+
   @media (min-width: 768px) {
     &__navigation {
-      max-width: 900px;
       &-links {
         &-item {
           span {
@@ -132,31 +150,11 @@ const { toggleDarkMode } = store;
   opacity: 0;
 }
 
-// Desktop
 @media (min-width: 992px) {
   header {
     display: flex;
     place-items: center;
     padding-right: calc(var(--section-gap) / 2);
   }
-
-  // .logo {
-  //   margin: 0 2rem 0 0;
-  // }
-
-  // header .wrapper {
-  //   display: flex;
-  //   place-items: flex-start;
-  //   flex-wrap: wrap;
-  // }
-
-  // nav {
-  //   text-align: left;
-  //   margin-left: -1rem;
-  //   font-size: 1rem;
-
-  //   padding: 1rem 0;
-  //   margin-top: 1rem;
-  // }
 }
 </style>

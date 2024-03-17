@@ -1,4 +1,4 @@
-import type { showDetailsTab } from "../utils/constants";
+import type { colorScheme, showDetailsTab } from "../utils/constants";
 
 export type ShowGenres = {
   [key: string]: {
@@ -95,41 +95,6 @@ export type SearchedShow = {
   show: Show;
 };
 
-// export type Rating = {
-//   average: number;
-// };
-
-// export type Image = {
-//   medium: string;
-//   original: string;
-// };
-
-// export type Links = {
-//   self: {
-//       href: string;
-//   };
-//   show: {
-//       href: string;
-//   };
-// };
-
-// export type Episode = {
-//   id: number;
-//   url: string;
-//   name: string;
-//   season: number;
-//   number: number;
-//   type: string;
-//   airdate: string;
-//   airtime: string;
-//   airstamp: string;
-//   runtime: number;
-//   rating: Rating;
-//   image: Image;
-//   summary: string;
-//   _links: Links;
-// };
-
 export type Country = {
   name: string;
   code: string;
@@ -190,3 +155,5 @@ export type ShowGenresMap = Map<
     description: string;
   }
 >;
+
+export type ColorSchemeKeys = keyof typeof colorScheme;

@@ -2,7 +2,7 @@
   <div class="genre-page">
     <header>
       <h2>{{ genreName }}</h2>
-      <span>{{ showGenres[selectedGenre]?.description }}</span>
+      <p>{{ showGenres[selectedGenre]?.description }}</p>
     </header>
     <main>
       <div v-if="selectedGenreIsValid" class="genre-page__content">
@@ -16,14 +16,16 @@
         </div>
         <div class="genre-page__content-see-more">
           <span v-if="data?.length === 0">There are no more shows to load</span>
-          <button v-else @click="loadMoreShows">See more shows</button>
+          <button v-else class="action-button" aria-label="Load more shows" @click="loadMoreShows">
+            See more shows
+          </button>
         </div>
       </div>
       <div v-else class="genre-page__genre-not-found">
         <p>
           The genre <strong>{{ selectedGenre }}</strong> does not exist.
         </p>
-        <img :src="IconSadFace" alt="genre not found icon" />
+        <i class="fa fa-frown-o" aria-hidden="true"></i>
       </div>
     </main>
   </div>
@@ -31,7 +33,6 @@
 
 <script setup lang="ts">
 import ShowItem from "@/components/ShowItem.vue";
-import IconSadFace from "@/assets/icon-sad-face.svg?url";
 import { fetchShows } from "@/stores/api";
 import type { Show } from "@/types";
 import { showGenres } from "@/utils/constants";
@@ -52,10 +53,12 @@ const selectedGenreIsValid = computed(() => {
 
 const loadedShows = ref<Show[]>([]);
 const page = ref(1);
-const { isLoading, isError, data, error, isPending, isFetching, refetch } = useQuery({
+const { data } = useQuery({
   queryKey: ["shows", page],
   queryFn: () => {
-    if (!genreName.value) return [];
+    if (!genreName.value) {
+      return [];
+    }
     return fetchShows(page);
   },
   // @ts-ignore This field is not defined in the vue-query types
@@ -97,6 +100,12 @@ watch(
 
 <style lang="scss" scoped>
 .genre-page {
+  padding: var(--spacing-large);
+
+  main {
+    padding-top: var(--spacing-normal);
+  }
+
   &__content {
     display: flex;
     flex-direction: column;
@@ -106,30 +115,32 @@ watch(
 
       button {
         height: 50px;
-        width: 300px;
+        min-width: 300px;
       }
     }
 
     &-items {
       display: grid;
-      grid-template-columns: repeat(2, 1fr); /* Starts with 2 columns */
-      grid-gap: var(--spacing-normal);
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: var(--spacing-normal) var(--spacing-small);
+      justify-items: center;
+      align-items: center;
 
       @media (min-width: 768px) {
         & {
-          grid-template-columns: repeat(3, 1fr); /* Switches to 3 columns */
+          grid-template-columns: repeat(3, 1fr);
         }
       }
 
       @media (min-width: 992px) {
         & {
-          grid-template-columns: repeat(4, 1fr); /* Switches to 5 columns */
+          grid-template-columns: repeat(4, 1fr);
         }
       }
 
       @media (min-width: 1280px) {
         & {
-          grid-template-columns: repeat(5, 1fr); /* Switches to 5 columns */
+          grid-template-columns: repeat(5, 1fr);
         }
       }
     }
@@ -144,6 +155,14 @@ watch(
 
     svg {
       max-width: 100px;
+    }
+  }
+
+  @media (min-width: 992px) {
+    header {
+      p {
+        font-size: var(--font-size-4);
+      }
     }
   }
 }

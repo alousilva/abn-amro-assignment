@@ -64,30 +64,21 @@ const episodesOfSelectedSeason = computed(() => {
 
 <style lang="scss" scoped>
 .episodes-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-normal) 0;
+  padding-top: var(--spacing-normal);
+
   &__header {
     display: flex;
-    gap: 0 20px;
+    gap: 0 var(--spacing-normal);
     font-size: var(--font-size-4);
   }
+
   &__season-contents {
     display: flex;
     flex-direction: column;
-    gap: 40px 0;
-    // display: grid;
-    // grid-template-columns: repeat(1, 1fr); /* Starts with 1 column */
-    // grid-gap: var(--spacing-normal);
-
-    // @media (min-width: 768px) {
-    //   & {
-    //     grid-template-columns: repeat(3, 1fr); /* Switches to 3 columns */
-    //   }
-    // }
-
-    // @media (min-width: 992px) {
-    //   & {
-    //     grid-template-columns: repeat(5, 1fr); /* Switches to 5 columns */
-    //   }
-    // }
+    gap: var(--spacing-normal) 0;
   }
 }
 </style>

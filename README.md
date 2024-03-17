@@ -24,6 +24,10 @@ So to circumvent this problem I extracted the list of genres from https://www.tv
 TODO:
 code optimizations
 handle errors
+- no cast
+- no episodes
+- no shows
+  
 remove inactive queries, maybe
 improve CSS
 unit tests
@@ -31,7 +35,7 @@ unit tests
 Features:
 
 - [X] List shows
-- [ ] List shows for a given genre
+- [X] List shows for a given genre
 - [X] Search for shows
 - [X] Detailed show view
   - [X] List show episodes
@@ -39,7 +43,13 @@ Features:
 - [X] Lazy load images
 - [X] Save favorites
 - [X] Dark / light mode
+- [X] add nice horizontal scroll bars to the shows list
+- [X] add styles for bigger screens
 
+breakpoints
+
+<576px
+<992px
 
 ```js
 const genres = [

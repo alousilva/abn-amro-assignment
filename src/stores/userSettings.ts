@@ -1,37 +1,27 @@
+import type { ColorSchemeKeys } from "@/types";
+import { colorScheme } from "@/utils/constants";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useThemeStore = defineStore("theme", () => {
-  const isDarkMode = () => {
-    if (!localStorage.getItem("theme-appearance")) {
-      return window.matchMedia("(prefers-color-scheme: dark)").matches;
-    }
-
-    if (localStorage.getItem("theme-appearance") === "dark") {
-      return true;
-    }
-
-    return false;
-  };
-
   const loadTheme = () => {
-    const darkModeIsOn = isDarkMode();
-    document.documentElement.classList.toggle("dark", darkModeIsOn);
-    return darkModeIsOn ? "dark" : "light";
+    const storedTheme = localStorage.getItem("theme-appearance");
+    const prefersDarkColorScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const darkModeIsOn =
+      storedTheme === colorScheme.dark || (!storedTheme && prefersDarkColorScheme);
+    document.documentElement.classList.toggle(colorScheme.dark, darkModeIsOn);
+    return darkModeIsOn ? colorScheme.dark : colorScheme.light;
   };
 
   const toggleDarkMode = () => {
-    if (theme.value === "light") {
-      theme.value = "dark";
-      localStorage.setItem("theme-appearance", "dark");
-    } else {
-      theme.value = "light";
-      localStorage.setItem("theme-appearance", "light");
-    }
-    document.documentElement.classList.toggle("dark", isDarkMode());
+    const newTheme: ColorSchemeKeys =
+      theme.value === colorScheme.light ? colorScheme.dark : colorScheme.light;
+    localStorage.setItem("theme-appearance", newTheme);
+    document.documentElement.classList.toggle(colorScheme.dark, newTheme === colorScheme.dark);
+    theme.value = newTheme;
   };
 
-  const theme = ref<string>(loadTheme());
+  const theme = ref<ColorSchemeKeys>(loadTheme());
 
   return {
     theme,

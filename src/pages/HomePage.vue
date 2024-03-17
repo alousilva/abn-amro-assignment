@@ -1,5 +1,6 @@
 <template>
   <div class="home-page">
+    <toaster-popup v-if="toasterIsVisible" :message="toasterMessage" />
     <header>
       <input-text
         v-model="searchKeyword"
@@ -11,18 +12,10 @@
         placeholder="Search shows"
       />
     </header>
-    <!-- <main>
-      <span v-if="showsIsPending">Loading shows...</span>
-      <span v-else-if="showsIsError">Error: {{ showsError?.message }}</span>
+    <main>
+      <div v-if="noShowsFoundByKeyword">No shows found</div>
       <shows-grid
         v-else
-        :shows="showsGridData"
-        @open-show-details="openShowHandler"
-        @view-all-shows-by-genre="viewAllShowsByGenreHandler"
-      />
-    </main> -->
-    <main>
-      <shows-grid
         :shows="showsGridData"
         :view-all-button-is-visible="viewAllButtonIsVisible"
         @open-show-details="openShowHandler"
@@ -35,40 +28,45 @@
 <script setup lang="ts">
 import InputText from "@/components/InputText.vue";
 import ShowsGrid from "@/components/ShowsGrid.vue";
+import { useToaster } from "@/composables/userToaster";
 import { useQuery } from "@tanstack/vue-query";
 import type { Show } from "@/types";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { fetchShows, fetchShowsByKeyword } from "@/stores/api";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+const { toasterIsVisible, toasterMessage, showToaster } = useToaster();
 
-// Query
+// The initial page load will always point to page 1 to get some data for the sake of the example
 const page = ref(1);
 const searchKeyword = ref("");
 
 const {
-  isError: showsByKeywordIsError,
   data: showsByKeywordData,
   error: showsByKeywordError,
-  isPending: showsByKeywordIsPending,
-  // isFetching,
+  status: showsByKeywordStatus,
 } = useQuery({
   queryKey: ["shows-by-keyword", searchKeyword],
-  queryFn: () => fetchShowsByKeyword(searchKeyword),
+  queryFn: () => {
+    if (!searchKeyword.value) {
+      return [];
+    }
+    return fetchShowsByKeyword(searchKeyword);
+  },
   // @ts-ignore This field is not defined in the vue-query types
   keepPreviousData: true,
 });
 
-const {
-  isLoading: showsIsLoading,
-  isError: showsIsError,
-  data: showsData,
-  error: showsError,
-  isPending: showsIsPending,
-  isFetching: showsIsFetching,
-  // isFetching,
-} = useQuery({
+const noShowsFoundByKeyword = computed(() => {
+  return (
+    searchKeyword.value &&
+    showsByKeywordStatus.value === "success" &&
+    showsByKeywordData.value?.length === 0
+  );
+});
+
+const { data: showsData } = useQuery({
   queryKey: ["shows", page],
   queryFn: () => fetchShows(page),
   // @ts-ignore This field is not defined in the vue-query types
@@ -99,13 +97,22 @@ const viewAllShowsByGenreHandler = (genreType: string) => {
     path: `/genre/${genreType}`,
   });
 };
+
+watch([showsByKeywordError], (value) => {
+  const errorMessage = value ? (value[0]?.message as string) : "Something went wrong";
+  showToaster(errorMessage);
+});
 </script>
 
 <style lang="scss" scoped>
 .home-page {
+  padding: var(--spacing-large);
+
   &__search {
     display: flex;
     width: 100%;
+    margin-inline: auto;
+    padding: var(--spacing-large) 0;
   }
 }
 </style>

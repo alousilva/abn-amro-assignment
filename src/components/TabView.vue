@@ -4,11 +4,16 @@
       <li
         v-for="header in tabHeaders"
         :key="header"
-        tabindex="0"
-        @click="tabSelectionHandler(header)"
-        @keydown.enter="tabSelectionHandler(header)"
+        class="tab-view__header-item"
+        :class="{ 'tab-view__header-item--active': header === selectedHeader }"
       >
-        {{ header }}
+        <button
+          :aria-label="`${header} tab`"
+          class="action-button"
+          @click="tabSelectionHandler(header)"
+        >
+          {{ header }}
+        </button>
       </li>
     </ul>
     <div class="tab-view__content">
@@ -43,21 +48,18 @@ watch(selectedHeader, () => {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-none) var(--spacing-small);
-  // padding: var(--spacing-medium) var(--spacing-medium);
 
   &__header {
     display: flex;
-    gap: var(--spacing-none) var(--spacing-small);
-    height: 50px;
-    background-color: #b1d4a9;
+    align-items: center;
+    gap: var(--spacing-none) var(--spacing-medium);
+    padding: var(--spacing-medium) var(--spacing-none);
 
-    li {
-      cursor: pointer;
+    &-item--active {
+      button {
+        background-color: #39903c;
+      }
     }
-  }
-
-  &__content {
-    display: flex;
   }
 }
 </style>

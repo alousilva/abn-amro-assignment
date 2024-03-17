@@ -3,13 +3,16 @@
     <div class="shows-list__title">
       <span>{{ genreName }}</span>
       <button
-        v-if="viewAllButtonVisibility"
+        v-if="viewAllButtonIsVisible"
+        class="action-button"
+        :aria-label="`View all ${genreName} shows`"
         @click="$emit('view-all-shows-by-genre', props.genreType)"
       >
-        View all
+        <i class="fa fa-eye" aria-hidden="true"></i>
+        Explore
       </button>
     </div>
-    <div class="shows-list__items">
+    <div class="shows-list__items scrollbox">
       <!-- <show-item-skeleton v-if="props.isLoading" /> -->
       <show-item
         v-for="show in showsSortedByRating"
@@ -63,32 +66,23 @@ const showsSortedByRating = computed(() => {
   }
   return sortedByRating;
 });
-
-const viewAllButtonVisibility = computed(() => {
-  return props.viewAllButtonIsVisible && filteredShowsByGenre.value.length > props.maxVisibleItems;
-});
 </script>
 
 <style lang="scss" scoped>
 .shows-list {
-  display: block;
-  // add media queries
-
   &__title {
     display: flex;
     justify-content: space-between;
-    margin: 8px 0;
-    font-size: 30px;
-    color: var(--color-heading);
+    margin: var(--spacing-small) var(--spacing-none);
+    font-size: var(--font-size-5);
+    color: var(--color-text);
   }
 
   &__items {
     display: flex;
-    // flex-direction: column;
-    gap: 0 30px;
-    max-width: 800px;
+    gap: var(--spacing-none) var(--spacing-large);
     overflow-y: auto;
-    padding: 40px 0;
+    padding: var(--spacing-normal) 6px;
   }
 }
 </style>

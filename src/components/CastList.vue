@@ -19,18 +19,20 @@ withDefaults(defineProps<{ castMembers: CastMember[] }>(), {
 <style lang="scss" scoped>
 .cast-list {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Starts with 2 columns */
-  grid-gap: var(--spacing-normal);
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: var(--spacing-normal) var(--spacing-small);
+  justify-items: center;
+  align-items: center;
 
   @media (min-width: 768px) {
     & {
-      grid-template-columns: repeat(3, 1fr); /* Switches to 3 columns */
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 
   @media (min-width: 992px) {
     & {
-      grid-template-columns: repeat(5, 1fr); /* Switches to 5 columns */
+      grid-template-columns: repeat(4, 1fr);
     }
   }
 }

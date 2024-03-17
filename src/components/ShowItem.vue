@@ -2,10 +2,16 @@
   <div
     class="show-item"
     tabindex="0"
+    :aria-label="props.show?.name"
     @click="$emit('open-show-details', props.show?.id)"
     @keydown.enter="$emit('open-show-details', props.show?.id)"
   >
-    <v-lazy-image :src="props.show?.image?.medium || ''" :alt="`image for ${props.show?.name}`" />
+    <v-lazy-image
+      v-if="props.show?.image?.medium"
+      :src="props.show.image.medium"
+      :alt="`image for ${props.show?.name}`"
+    />
+    <i v-else class="fa fa-file-image-o" aria-hidden="true"></i>
   </div>
 </template>
 
@@ -28,20 +34,21 @@ defineEmits(["open-show-details"]);
   gap: var(--spacing-small) var(--spacing-none);
   border-radius: var(--border-radius);
   cursor: pointer;
-  z-index: 0;
-  max-height: 300px;
+  width: 160px;
 
   img {
     border-radius: inherit;
+    width: inherit;
+  }
+  i {
+    font-size: 190px;
+    line-height: 220px;
   }
 
   &:hover,
   &:focus {
     transform: scale(1.05, 1.05);
-    // box-shadow: 0 12px 32px var(--color-box-shadow);
-    transition-duration: 300ms;
-    transition-property: transform, box-shadow;
-    transition-timing-function: ease-out;
+    transition: transform 300ms ease-in-out;
   }
 }
 </style>

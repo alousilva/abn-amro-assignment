@@ -98,3 +98,8 @@ export const showDetailsTab = {
   episodes: "Episodes",
   cast: "Cast",
 } as const;
+
+export const colorScheme = {
+  dark: "dark",
+  light: "light",
+} as const;

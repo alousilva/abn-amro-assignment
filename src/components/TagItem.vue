@@ -10,11 +10,14 @@ const props = withDefaults(defineProps<{ text: string }>(), {
 
 <style lang="scss" scoped>
 .tag-item {
-  background: rgb(72 75 72 / 68%);
-  color: var(--vt-c-white);
+  color: var(--color-text);
+  background-color: var(--color-background-mute);
   font-size: var(--font-size-3);
-  font-weight: bold;
+  font-weight: var(--font-weight-2);
   padding: 6px;
   border-radius: var(--border-radius);
+  transition:
+    color 0.5s,
+    background-color 0.5s;
 }
 </style>

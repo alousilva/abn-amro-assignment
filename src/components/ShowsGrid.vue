@@ -35,7 +35,7 @@ defineEmits(["open-show-details", "view-all-shows-by-genre"]);
   display: flex;
 
   &__content {
-    max-width: 500px;
+    max-width: 100%;
     display: flex;
     flex-direction: column;
     gap: var(--spacing-xlarge) var(--spacing-none);
@@ -54,20 +54,7 @@ defineEmits(["open-show-details", "view-all-shows-by-genre"]);
   &__lists {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-xlarge) var(--spacing-none);
-  }
-
-  .side-panel {
-    width: 400px;
-    height: 100vh;
-    background-color: red;
-  }
-
-  // Tablet
-  @media (min-width: 768px) {
-    &__content {
-      max-width: 900px;
-    }
+    gap: var(--spacing-normal) var(--spacing-none);
   }
 }
 </style>

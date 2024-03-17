@@ -5,21 +5,20 @@
       :src="castMember.person.image.medium || ''"
       :alt="`image for ${castMember.person.name}`"
     />
-    <icon-no-face v-else />
-    <span>Person: {{ castMember.person.name }}</span>
+    <i v-else class="fa fa-user" aria-hidden="true"></i>
+    <span><strong>Person:</strong> {{ castMember.person.name }}</span>
     <v-lazy-image
       v-if="castMember.character.image"
       :src="castMember.character.image.medium || ''"
       :alt="`image for ${castMember.character.name}`"
     />
-    <img v-else :src="IconNoFace" alt="face not found icon" />
-    <span>Char: {{ castMember.character.name }}</span>
+    <i v-else class="fa fa-user" aria-hidden="true"></i>
+    <span><strong>Char:</strong> {{ castMember.character.name }}</span>
     <!-- <span class="cast-item__name">{{ props.show?.name }}</span> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import IconNoFace from "@/assets/icon-no-face.svg";
 import VLazyImage from "v-lazy-image";
 import type { CastMember } from "@/types";
 
@@ -33,18 +32,39 @@ defineProps<{ castMember: CastMember }>();
   align-items: center;
   gap: var(--spacing-small) var(--spacing-none);
   border-radius: var(--border-radius);
-  border: 1px solid red;
-  // background-color: teal;
-  // padding: 20px;
-  max-width: 150px;
 
-  img {
-    border-radius: inherit;
-    max-width: inherit;
+  span {
+    text-align: center;
+    font-size: var(--font-size-1);
   }
 
-  // &__name {
-  //   font-weight: var(--font-weight-1);
-  // }
+  img {
+    border-radius: var(--border-radius);
+    max-width: 100%;
+    width: 250px;
+    object-fit: cover;
+    height: 250px;
+  }
+
+  i {
+    font-size: 200px;
+  }
+
+  @media (min-width: 768px) {
+    span {
+      font-size: var(--font-size-2);
+    }
+
+    img {
+      max-width: 200px;
+      height: 300px;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    img {
+      max-width: inherit;
+    }
+  }
 }
 </style>

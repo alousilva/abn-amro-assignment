@@ -12,10 +12,14 @@
           :src="episode.image.medium || ''"
           :alt="`image for ${episode.name}`"
         />
-        <img v-else :src="IconNoImage" alt="no image to display icon" />
+        <i v-else class="fa fa-file-image-o" aria-hidden="true"></i>
       </div>
-      <div>
-        <span>Episode {{ episode.number }}: {{ episode.name }}</span>
+      <div class="episode-item__details">
+        <span
+          ><strong>Episode {{ episode.number }}:</strong> {{ episode.name }}</span
+        >
+        <span><strong>Air date:</strong> {{ episode.airdate }}</span>
+        <span><strong>Rating:</strong> {{ episode.rating.average ?? "?" }} / 10</span>
         <div class="episode-item__summary-top" v-html="episode.summary"></div>
       </div>
     </div>
@@ -25,7 +29,6 @@
 </template>
 
 <script setup lang="ts">
-import IconNoImage from "@/assets/icon-no-image.svg?url";
 import VLazyImage from "v-lazy-image";
 import type { Episode } from "@/types";
 
@@ -37,30 +40,33 @@ defineEmits(["open-show-details"]);
 .episode-item {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: var(--spacing-small) var(--spacing-none);
   border-radius: var(--border-radius);
-  // cursor: pointer;
 
   &__top-container {
     display: flex;
     align-items: center;
-    width: 100%;
     gap: 0 20px;
   }
 
   &__image {
-    border-radius: inherit;
-    width: 250px;
-    height: 150px;
+    i {
+      font-size: 100px;
+    }
+  }
+
+  &__details {
+    max-width: 100%;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: var(--border-radius);
+    flex-direction: column;
+    font-size: var(--font-size-2);
+    width: 250px;
   }
 
   img {
-    border-radius: inherit;
+    border-radius: var(--border-radius);
+    max-width: 100%;
+    height: auto;
   }
 
   &__summary-top {
@@ -68,7 +74,14 @@ defineEmits(["open-show-details"]);
   }
 
   @media (min-width: 768px) {
-    &__top-container {
+    &__details {
+      width: 100%;
+    }
+
+    img {
+      max-width: inherit;
+      width: 350px;
+      height: 100%;
     }
 
     &__summary-top {
@@ -77,11 +90,6 @@ defineEmits(["open-show-details"]);
 
     &__summary-bottom {
       display: none;
-    }
-  }
-
-  @media (min-width: 992px) {
-    &__top-container {
     }
   }
 }

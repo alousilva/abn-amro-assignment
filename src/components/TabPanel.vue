@@ -1,13 +1,11 @@
 <template>
-  <div class="tab-panel" v-show="header === selectedHeader">
+  <div v-show="header === selectedHeader" class="tab-panel">
     <slot />
   </div>
 </template>
 
 <script setup lang="ts">
 import { inject } from "vue";
-
-// import type { Show } from '@/types';
 
 const selectedHeader = inject("selectedHeader");
 

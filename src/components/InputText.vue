@@ -10,7 +10,7 @@
       title="Clear input"
       @click="debouncedInputChange"
     >
-      X
+      <i class="fa fa-times"></i>
     </button>
   </div>
 </template>
@@ -41,7 +41,7 @@ const debouncedInputChange = debounce(handleInputChange, props.debounceDelay);
   input {
     height: 50px;
     padding: var(--spacing-medium) var(--spacing-medium);
-
+    padding-right: 54px;
     width: 100%;
     margin: 0 auto;
     --input-border: 1px solid rgb(11% 11% 3.14% / 0.08);
@@ -56,8 +56,8 @@ const debouncedInputChange = debounce(handleInputChange, props.debounceDelay);
 
   .clear-input-button {
     position: absolute;
-    right: 12px;
-    top: 10px;
+    right: var(--spacing-medium);
+    top: var(--spacing-xlarge);
     justify-content: center;
     align-items: center;
     width: 32px;
