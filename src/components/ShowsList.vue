@@ -42,7 +42,7 @@ const props = withDefaults(defineProps<Props>(), {
   genreType: "",
   genreName: "",
   viewAllButtonIsVisible: false,
-  maxVisibleItems: 7,
+  maxVisibleItems: 9,
   shows: () => [],
 });
 
