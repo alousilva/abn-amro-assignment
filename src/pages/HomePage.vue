@@ -67,7 +67,6 @@ const { data: showsData } = queryShows(page);
 const showsGridData = computed(() => {
   if (debouncedSearchKeyword.value) {
     const parsedShows = showsByKeywordData.value?.map((show) => show.show);
-    console.log({ parsedShows });
 
     return groupShowsByGenre(parsedShows);
   } else {

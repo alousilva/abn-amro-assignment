@@ -3,12 +3,13 @@
 ## Technical solution
 
 - `npm create vue@latest` to init the project
-- The project uses Vue.js 3.4 and TypeScript. The choice of Vue.js is because not only I am familiar with it but also because it is a fast and easy lib to work with. The choice of TypeScript was to drastic reduce the amount of bugs and get proper intelissence
+- The project uses Vue.js 3.4 and TypeScript. The choice of Vue.js is because not only I am familiar with it but also because it is a fast and easy lib to work with. The choice of TypeScript was to drastic reduce the amount of bugs and get proper intellisense
 - Installed the following packages:
-  - `@tanstack/vue-query` because it provides nice hooks out-of-the-box to fetch and cache data (and many more) the ease the development experience
-  - `pinia` for unit testing
-  - `sass`
-  - `v-lazy-image` - creating a image component with proper lazy loading behavior would be very time consuming so I opted to install an existing solution. The lazy loading is important to achieve given the fact that there are hundreds of images to load at a given time, This way I reduced the amount of assets downloaded
+  - `tanstack/vue-query` because it provides nice hooks out-of-the-box to fetch and cache data (and many more) the ease the development experience
+  - `pinia` for state management
+  - `vitest` for unit testing
+  - `sass` to be able to write scss inside the vue components
+  - `v-lazy-image` to neatly lazy load images. Creating a image component with proper lazy loading behavior would be very time consuming so I opted to install an existing solution. The lazy loading is important to achieve given the fact that the app can have hundreds of images to load at a given time. This way I reduced the amount of assets downloaded
 - created my own UI lib (to prevent me from using UI libraries and show some more custom work):
   - InputText
   - TabView
@@ -17,7 +18,6 @@
   - A rudimentary ToasterPopup just to show some errors on the homepage and demonstrate the usage of composables
 - There are some utility functions, including a debouncer created from scratch
 - I used node v20.11.1 and npm v9.6.7
-
 
 ### Limitations of the api
 
@@ -36,10 +36,10 @@ Or for multiple genres (comma separated values):
 https://api.tvmaze.com/shows?genre=action,sci-fi,mystery
 ```
 
-So to circumvent this problem I extracted the list of genres from https://www.tvmaze.com/faq/32/genre-definitions and stored them in a ShowGenres object:
+So to circumvent this problem I extracted the list of genres from https://www.tvmaze.com/faq/32/genre-definitions and stored them in a ShowGenres object, in src/utils/constants.ts
 
 ```js
-const genres = {
+const showGenres = {
   history: {
     name: "History",
     description: "Series is either about an historical event or has an historical setting.",
@@ -58,13 +58,13 @@ And then and query the /shows?page=<pageNumber> to get more results per page and
 
 [Design sketch](https://miro.com/app/board/uXjVNgnQVSY=/?share_link_id=556408622827): In this miro board you can check the general design choices.
 
-I also deployed the app via my netlify account to simulate a sort of a staging enviroment to check how the app behaves, without the need of running the project locally.
+I also deployed the app via my netlify account to simulate a sort of a staging environment to check how the app behaves, without the need of running the project locally.
 
-[Link to the app](https://staging-tvmaze.netlify.app/)
+[Link to the app](https://staging-tvmaze.netlify.app/) - this app will stay online until the end of March
 
-**Note1**: Since this is a SPA, routing will obviously not work on the server side. Meaning that it is useless to do a refresh while visiting a page other than the root. For that I would need to handle server side routing and for the sake of this deployed project it is not needed.
+**Note 1**: Since this is a SPA, routing will obviously not work on the server side. Meaning that it is useless to do a refresh while visiting a page other than the root. For that I would need to handle server side routing and for the sake of this deployed project it is not needed.
 
-**Note2**: However this routing limitation does not occur while running the project locally, since the localhost is the server and can handle the routing.
+**Note 2**: However this routing limitation does not occur while running the project locally, since the localhost is the server and can handle the routing.
 
 Features:
 
@@ -75,8 +75,8 @@ Features:
   - [X] List show episodes
   - [X] List show cast
 - [X] Lazy load images
-- [X] Save favorites
-- [X] Dark / light mode
+- [X] Add/remove shows to/from favorites
+- [X] Dark/light mode
 
 ## Project Setup
 
