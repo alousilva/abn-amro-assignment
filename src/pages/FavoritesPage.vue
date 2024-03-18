@@ -51,7 +51,7 @@ const openShowHandler = (showId: Show["id"]) => {
 
 const redirectToHome = () => {
   router.push({
-    path: `/`,
+    path: "/",
   });
 };
 </script>
