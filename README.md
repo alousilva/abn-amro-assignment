@@ -1,9 +1,12 @@
 # tvmaze
 
+Repo for the assignment.
+The goal is to consume endpoins from the publicly available api [tvmaze](https://www.tvmaze.com/api) and present information to the user in a appealing way and to provide some [features](#features).
+
 ## Technical solution
 
 - `npm create vue@latest` to init the project
-- The project uses Vue.js 3.4 and TypeScript. The choice of Vue.js is because not only I am familiar with it but also because it is a fast and easy lib to work with. The choice of TypeScript was to drastic reduce the amount of bugs and get proper intellisense
+- The project uses Vue.js 3.4 and TypeScript. The choice of Vue.js is because not only I am familiar with it but also because it is a fast and easy lib to work with. The choice of TypeScript was to drasticly reduce the amount of bugs and get proper intellisense
 - Installed the following packages:
   - `tanstack/vue-query` because it provides nice hooks out-of-the-box to fetch and cache data (and many more) the ease the development experience
   - `pinia` for state management
@@ -66,7 +69,7 @@ I also deployed the app via my netlify account to simulate a sort of a staging e
 
 **Note 2**: However this routing limitation does not occur while running the project locally, since the localhost is the server and can handle the routing.
 
-Features:
+## Features
 
 - [X] List shows
 - [X] List shows for a given genre
